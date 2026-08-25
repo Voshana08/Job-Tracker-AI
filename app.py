@@ -55,14 +55,26 @@ def contact():
     print("Applications this week : ", applications_this_week)
     
     #Average days to interview is the next calculation
+    #This is calculated by checking when the application was submited - the date the status changed.
     interview = "Interview"
     query3 = "SELECT date_applied,status_updated_at FROM applications WHERE status = ?"
     cursor.execute(query3,(interview,))
     data_date = cursor.fetchall()
     for row in data_date:
         print(row['date_applied'], row['status_updated_at'])
-  
-  
+    
+    day_gaps = []   # empty container, created BEFORE the loop
+
+    for row in data_date:
+        applied = datetime.strptime(row['date_applied'], '%Y-%m-%d')
+        interview = datetime.strptime(row['status_updated_at'], '%Y-%m-%d')
+        # the .days gives you just the days as an int. Its part of the timedelta package.
+        
+        gap =(interview-applied).days
+        
+        day_gaps.append(gap)  # add gap into your container
+    avg_days_to_interview = sum(day_gaps) / len(day_gaps)
+    print("Average between application and Interview : ", round(avg_days_to_interview))
   
   
   

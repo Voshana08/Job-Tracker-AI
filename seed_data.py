@@ -12,38 +12,38 @@ conn = sqlite3.connect('applications.db')   # ← same filename as always
 cursor = conn.cursor()
 
 cursor.execute(
-    "INSERT INTO applications (company, role, status,date_applied) VALUES (?, ?, ?,?)",
-    ("Atlassian", "Junior Developer", "Applied","12-08-2026")
+    "INSERT INTO applications (company, role, status,date_applied,status_updated_at) VALUES (?, ?, ?,?,?)",
+    ("Atlassian", "Junior Developer", "Applied","2026-08-09","2026-08-23")
 )
 
 # repeat this a few more times with different fake data
 cursor.execute(
-    "INSERT INTO applications (company, role, status,date_applied) VALUES (?, ?, ?,?)",
-    ("Google", "Junior Developer", "Applied","23-08-2026")
+    "INSERT INTO applications (company, role, status,date_applied,status_updated_at) VALUES (?, ?, ?,?,?)",
+    ("Google", "Junior Developer", "Applied","2026-08-25","2026-08-25")
 )
 cursor.execute(
-    "INSERT INTO applications (company, role, status,date_applied) VALUES (?, ?, ?,?)",
-    ("Microsoft", "Junior Developer", "Applied","25-08-2026")
+    "INSERT INTO applications (company, role, status,date_applied,status_updated_at) VALUES (?, ?, ?,?,?)",
+    ("Microsoft", "Junior Developer", "Applied","2026-08-24","2026-08-25")
 )
 cursor.execute(
-    "INSERT INTO applications (company, role, status,date_applied) VALUES (?, ?, ?,?)",
-    ("Apple", "Junior Developer", "Interview","17-08-2026")
+    "INSERT INTO applications (company, role, status,date_applied,status_updated_at) VALUES (?, ?, ?,?,?)",
+    ("Apple", "Junior Developer", "Interview","2026-08-14","2026-08-23")
 )
 cursor.execute(
-    "INSERT INTO applications (company, role, status,date_applied) VALUES (?, ?, ?,?)",
-    ("Monash", "Junior Developer", "Interview","17-08-2026")
+    "INSERT INTO applications (company, role, status,date_applied,status_updated_at) VALUES (?, ?, ?,?,?)",
+    ("Monash", "Junior Developer", "Interview","2026-08-11","2026-08-22")
 )
 cursor.execute(
-    "INSERT INTO applications (company, role, status,date_applied) VALUES (?, ?, ?,?)",
-    ("Yahoo", "Junior Developer", "Rejected","17-08-2026")
+    "INSERT INTO applications (company, role, status,date_applied,status_updated_at) VALUES (?, ?, ?,?,?)",
+    ("Yahoo", "Junior Developer", "Rejected","2026-08-23","2026-08-24")
 )
 cursor.execute(
-    "INSERT INTO applications (company, role, status,date_applied) VALUES (?, ?, ?,?)",
-    ("Webx", "Junior Developer", "Interview","19-08-2026")
+    "INSERT INTO applications (company, role, status,date_applied,status_updated_at) VALUES (?, ?, ?,?,?)",
+    ("Webx", "Junior Developer", "Interview","2026-08-22","2026-08-24")
 )
 cursor.execute(
-    "INSERT INTO applications (company, role, status,date_applied) VALUES (?, ?, ?,?)",
-    ("Anthropic", "Junior Developer", "Offer","21-08-2026")
+    "INSERT INTO applications (company, role, status,date_applied,status_updated_at) VALUES (?, ?, ?,?,?)",
+    ("Anthropic", "Junior Developer", "Offer","2026-08-16","2026-08-23")
 )
 conn.commit()
 conn.close()
