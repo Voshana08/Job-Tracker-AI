@@ -1,4 +1,5 @@
 from flask import Flask,render_template,request
+from datetime import datetime, timedelta
 import sqlite3
 #Creating the flask app
 app = Flask(__name__)
@@ -41,8 +42,36 @@ def contact():
         response_rate =0
         print("No job applications yet")
     
+    #Calculating how many appliations, was put through this week (last 7 days)
+    #This may look complex, but all its doing is string manupulation. And changing the date format.
+    today = datetime.now()
+    one_week_ago = today - timedelta(days=7)
+    #one_week_ago comes back as a Python datetime object
+    one_week_ago_str = one_week_ago.strftime('%Y-%m-%d')
+    
+    query2 = "SELECT COUNT(*) FROM applications WHERE date_applied >= ?"
+    cursor.execute(query2,(one_week_ago_str,))
+    applications_this_week = cursor.fetchone()[0]
+    print("Applications this week : ", applications_this_week)
+    
+    #Average days to interview is the next calculation
+    interview = "Interview"
+    query3 = "SELECT date_applied,status_updated_at FROM applications WHERE status = ?"
+    cursor.execute(query3,(interview,))
+    data_date = cursor.fetchall()
+    for row in data_date:
+        print(row['date_applied'], row['status_updated_at'])
+  
+  
+  
+  
+  
+    
     conn.close()
     return render_template('dashboard.html')
+
+
+
 
 # full view of applications that have been submitted 
 @app.route('/applications',methods = ['GET','POST'])

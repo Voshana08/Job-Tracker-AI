@@ -16,6 +16,7 @@ def init_db():
             match_score INTEGER,
             missing_keywords TEXT,
             notes TEXT,
+            status_updated_at TEXT,
             created_at TIMESTAMP
         )
     '''
