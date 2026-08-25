@@ -26,3 +26,10 @@ def init_db():
 if __name__ == '__main__':
     init_db()
     print("Database created successfully!")
+    
+    
+# Your status column only ever holds ONE of these 4 values:
+#    "Applied"
+#    "Interview"
+#    "Offer"
+#    "Rejected"
