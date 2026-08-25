@@ -20,7 +20,7 @@ def contact():
     #The logic to read the database and calculate the response rate
     cursor.execute("SELECT COUNT(*) FROM applications")
     total_rows = cursor.fetchone()[0]
-    print(total_rows)
+    #print("Total rows :" , total_rows)
     
     #Counting the number of responded. 
     #Using a ? placeholder prevents SQL injection
@@ -28,7 +28,18 @@ def contact():
     query = "SELECT COUNT(*) FROM applications WHERE status != ?"
     #If its a single placeholder, it needs a tuple
     cursor.execute(query,(applied,))
+    #fetchone method gives us sort of an array,even though its one number to be returned back. So use indexing.
+    responded = cursor.fetchone()[0]
+    #print("Responded to ", responded)
+   
     
+    #Now lets calculate the response rate
+    if total_rows > 0 :
+        response_rate = round((responded/total_rows)*100)
+        print(response_rate)
+    else:
+        response_rate =0
+        print("No job applications yet")
     
     conn.close()
     return render_template('dashboard.html')
