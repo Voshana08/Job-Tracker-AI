@@ -225,6 +225,14 @@ def auth():
         elif mode == 'login':
             print("login logic")
             
+            query6 = "SELECT * FROM users WHERE username = ?"
+            cursor.execute(query6,(username,))
+            user = cursor.fetchone()
+            
+            if user :
+                print("Username exists")
+            else :
+                print("This username is invalid")
         
     # cursor.execute("SELECT COUNT(*) FROM users")
     # total_users = cursor.fetchone()[0]
