@@ -59,14 +59,14 @@ a:hover {
 }
 
 .hero-title {
-    font-size: 48px;
+    font-size: 56px;
     font-weight: 600;
     line-height: 1.1;
     margin: 0 0 16px;
 }
 
 .hero-subtitle {
-    font-size: 18px;
+    font-size: 21px;
     line-height: 1.5;
     opacity: 0.75;
     margin: 0 0 32px;
@@ -78,7 +78,7 @@ a:hover {
     border: none;
     border-radius: 8px;
     padding: 12px 22px;
-    font-size: 15px;
+    font-size: 17px;
     font-weight: 500;
     font-family: inherit;
     cursor: pointer;
@@ -107,7 +107,7 @@ a:hover {
 .feature-card:nth-child(3) { background-color: var(--tint-100); }
 
 .feature-title {
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 600;
     color: var(--primary-deep);
     text-transform: uppercase;
@@ -116,7 +116,7 @@ a:hover {
 }
 
 .feature-text {
-    font-size: 15px;
+    font-size: 17px;
     line-height: 1.5;
     color: var(--charcoal);
     margin: 0;
@@ -134,12 +134,12 @@ a:hover {
 
 .navbar-brand {
     font-weight: 700;
-    font-size: 18px;
+    font-size: 20px;
     letter-spacing: -0.3px;
 }
 
 .navbar-link {
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 500;
     color: var(--slate);
 }
@@ -154,7 +154,7 @@ a:hover {
     border: 1px solid var(--hairline-strong);
     border-radius: 8px;
     padding: 10px 18px;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 500;
     font-family: inherit;
     cursor: pointer;
@@ -180,7 +180,7 @@ a:hover {
 }
 
 .dashboard-header h1 {
-    font-size: 32px;
+    font-size: 38px;
     font-weight: 600;
     letter-spacing: -0.5px;
     margin: 0;
@@ -201,18 +201,18 @@ a:hover {
 }
 
 .stat-box-label {
-    font-size: 13px;
+    font-size: 15px;
     color: var(--steel);
     margin-bottom: 6px;
 }
 
 .stat-box-value {
-    font-size: 28px;
+    font-size: 34px;
     font-weight: 600;
 }
 
 .section-heading {
-    font-size: 18px;
+    font-size: 21px;
     font-weight: 600;
     margin-bottom: 12px;
 }
@@ -230,14 +230,14 @@ a:hover {
 }
 
 .pipeline-label {
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.4px;
 }
 
 .pipeline-value {
-    font-size: 24px;
+    font-size: 28px;
     font-weight: 600;
     margin-top: 8px;
 }
@@ -273,7 +273,7 @@ a:hover {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 16px 20px;
+    padding: 26px 28px;
     border-bottom: 1px solid var(--hairline);
 }
 
@@ -283,29 +283,30 @@ a:hover {
 
 .recent-company {
     font-weight: 600;
-    font-size: 15px;
+    font-size: 17px;
+    margin-bottom: 6px;
 }
 
 .recent-role {
     color: var(--steel);
-    font-size: 14px;
+    font-size: 16px;
 }
 
 .recent-right {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 20px;
 }
 
 .recent-date {
     color: var(--stone);
-    font-size: 13px;
+    font-size: 15px;
 }
 
 .status-tag {
     border-radius: 999px;
     padding: 4px 12px;
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 600;
 }
 
@@ -320,5 +321,6 @@ a:hover {
     border-radius: 12px;
     text-align: center;
     padding: 48px;
+    font-size: 16px;
     color: var(--steel);
 }
