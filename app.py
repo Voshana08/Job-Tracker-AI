@@ -1,4 +1,4 @@
-from flask import Flask,render_template,request,redirect,url_for,flash
+from flask import Flask,render_template,request,redirect,url_for,flash,session
 from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -215,7 +215,10 @@ def auth():
                 conn.commit()
                 conn.close()
                 flash("Account created! Please log in.")
+                 
+                conn.close()
                 return redirect(url_for('auth', mode='login'))
+                
             
             except sqlite3.IntegrityError:
                 conn.close()
@@ -231,13 +234,28 @@ def auth():
             
             if user :
                 print("Username exists")
-            else :
-                print("This username is invalid")
+                print("Stored value:", user['password'])
+                print("Submitted password:", password)
+                if check_password_hash(user['password'],password):
+                    print("Password is correct")
+                    session['username'] = username
+                    flash("Logged in successfully!")
+                    conn.commit()  
+                    conn.close()
+                    return redirect(url_for('dashboard'))
+                else:
+                # username exists, but wrong password
+                    flash("Incorrect password.")
+                    return redirect(url_for('auth', mode='login'))   
+            else:
+                flash("No account found with that username.")
+                return redirect(url_for('auth', mode='signup'))
         
     # cursor.execute("SELECT COUNT(*) FROM users")
     # total_users = cursor.fetchone()[0]
-    # print("Total user logins : ",total_users)    
-    
+    # print("Total user logins : ",total_users)  
+        conn.commit()  
+        conn.close()
     return render_template('auth.html',mode=mode)
 
 
