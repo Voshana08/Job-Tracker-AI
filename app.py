@@ -11,8 +11,8 @@ def home():
     return render_template('base.html')
 
 #Contact route
-@app.route('/Dashboard',methods = ['GET','POST'])
-def contact():
+@app.route('/dashboard',methods = ['GET','POST'])
+def dashboard():
     #Connecting to the database
     conn = sqlite3.connect("applications.db")
     conn.row_factory =sqlite3.Row
@@ -56,9 +56,9 @@ def contact():
     
     #Average days to interview is the next calculation
     #This is calculated by checking when the application was submited - the date the status changed.
-    interview = "Interview"
+    interview1 = "Interview"
     query3 = "SELECT date_applied,status_updated_at FROM applications WHERE status = ?"
-    cursor.execute(query3,(interview,))
+    cursor.execute(query3,(interview1,))
     data_date = cursor.fetchall()
     for row in data_date:
         print(row['date_applied'], row['status_updated_at'])
@@ -66,33 +66,37 @@ def contact():
     day_gaps = []   # empty container, created BEFORE the loop
 
     for row in data_date:
-        applied = datetime.strptime(row['date_applied'], '%Y-%m-%d')
-        interview = datetime.strptime(row['status_updated_at'], '%Y-%m-%d')
+        applied_date = datetime.strptime(row['date_applied'], '%Y-%m-%d')
+        interview_date = datetime.strptime(row['status_updated_at'], '%Y-%m-%d')
         # the .days gives you just the days as an int. Its part of the timedelta package.
         
-        gap =(interview-applied).days
+        gap =(interview_date-applied_date).days
         
         day_gaps.append(gap)  # add gap into your container
     avg_days_to_interview = sum(day_gaps) / len(day_gaps)
     print("Average between application and Interview : ", round(avg_days_to_interview))
-  
+    # Grouping all of the status to one row now, to count how many instances of the status I got 
   
   
     
     conn.close()
-    return render_template('dashboard.html')
+    return render_template('dashboard.html',
+                        total_rows=total_rows,
+                        response_rate=response_rate,
+                        applications_this_week=applications_this_week,
+                        avg_days_to_interview=round(avg_days_to_interview))
 
 
 
 
 # full view of applications that have been submitted 
 @app.route('/applications',methods = ['GET','POST'])
-def learning():
+def applications():
     return render_template('applications.html')
 
 #Detailed view of the job applications
 @app.route('/view')
-def projects():
+def view():
     return render_template('view.html')
 
 
