@@ -17,6 +17,8 @@ def home():
 #Contact route
 @app.route('/dashboard',methods = ['GET','POST'])
 def dashboard():
+    #I need to write the logic here, so that when im logged in it shows the dashboard with the information.
+    #If not, it shows a signup or login portal for me to signup before information is displayed.
     #Connecting to the database
     conn = sqlite3.connect("applications.db")
     conn.row_factory =sqlite3.Row
