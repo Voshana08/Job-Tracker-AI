@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    
     <title>Dashbaord</title>
 </head>
 <body>
@@ -12,13 +12,44 @@
 
 
 {% block content %}
-<h1>Hello</h1>
+<h1>Test 1 </h1>
 total jobs applied to {{total_rows}}
 <br>
-Average response rate {{response_rate}} %
-Applications submitted this week {{applications_this_week}}
+Average response rate {{response_rate}} % <br>
+Applications submitted this week {{applications_this_week}} <br>
 Average turnarround before interview : {{avg_days_to_interview}}
+<br>
+Rejected Applications {{rejected_count}}
+<br>
+Recent Applications 
+<ul>
+{% for recent in recent_applications %}
 
+    <li>{{recent['company']}}, {{recent['role']}}, {{recent['status']}}, {{recent['date_applied']}}</li>
+
+{% endfor %}
+
+
+</ul>
+Pipeline Counts 
+<br>
+Applied Count: {{applied_count}},
+<br>
+Rejected Count : {{rejected_count}},
+<br>
+Interview Count : {{interview_count}}, <br>
+Offer Count : {{offer_count}}
+
+
+
+<div class="stat-card">
+    <p class="stat-label">Total applications</p>
+    <p class="stat-number">{{ total_rows }}</p>
+</div>
+<div class="stat-card">
+    <p class="stat-label">Total applications</p>
+    <p class="stat-number">{{ total_rows }}</p>
+</div>
 {%endblock %}
 </body>
 </html>

@@ -1,0 +1,6 @@
+div .stat-card {
+    background-color: lightgray;
+    border-radius: 10px solid black;
+    padding :5px;
+    box-shadow: inset;
+}

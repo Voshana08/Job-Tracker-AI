@@ -75,16 +75,44 @@ def dashboard():
         day_gaps.append(gap)  # add gap into your container
     avg_days_to_interview = sum(day_gaps) / len(day_gaps)
     print("Average between application and Interview : ", round(avg_days_to_interview))
+    
     # Grouping all of the status to one row now, to count how many instances of the status I got 
-  
-  
+    cursor.execute("SELECT status, COUNT(*) AS count FROM applications GROUP BY status")
+    pipeline_data = cursor.fetchall()
+    status_count_dict = {}
+    for row in pipeline_data:
+        print(row['status'], row['count'])
+        status_count_dict[row["status"]] = row['count']
+    print(status_count_dict)
+    #Now its time to get the count for the 4 status variables.
+    #This is how you get values out of a dict, the 0 is if its null and the value doesnt exist.
+    applied_count = status_count_dict.get('Applied',0)
+    interview_count = status_count_dict.get('Interview',0)
+    offer_count = status_count_dict.get('Offer',0)
+    rejected_count = status_count_dict.get('Rejected',0)
+    
+    # Now we need to get the recently applied applications (top 5 most recent ) to be shown on the dashboard
+    query5 = "SELECT company, role, status, date_applied FROM applications ORDER BY date_applied DESC LIMIT 5"
+    cursor.execute(query5)
+    recent_applications = cursor.fetchall()
+    for recent in recent_applications:
+        print(recent['date_applied'], "Date applied")
+    
+
+    
+
     
     conn.close()
     return render_template('dashboard.html',
                         total_rows=total_rows,
                         response_rate=response_rate,
                         applications_this_week=applications_this_week,
-                        avg_days_to_interview=round(avg_days_to_interview))
+                        avg_days_to_interview=round(avg_days_to_interview),
+                        applied_count = applied_count,
+                        interview_count = interview_count,
+                        rejected_countq = rejected_count,
+                        recent_applications = recent_applications,
+                        offer_count = offer_count)
 
 
 
