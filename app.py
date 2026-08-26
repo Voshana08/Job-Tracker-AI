@@ -1,4 +1,4 @@
-from flask import Flask,render_template,request
+from flask import Flask,render_template,request,redirect,url_for
 from datetime import datetime, timedelta
 import sqlite3
 #Creating the flask app
@@ -154,6 +154,34 @@ def applications():
                         search_query=search_query,
                         status_filter=status_filter,
                         status_options=['All', 'Applied', 'Interview', 'Offer', 'Rejected'])
+
+#Form to add a new job application
+@app.route('/applications/add', methods = ['GET','POST'])
+def add_application():
+    status_options = ['Applied', 'Interview', 'Offer', 'Rejected']
+
+    if request.method == 'POST':
+        company = request.form.get('company', '').strip()
+        role = request.form.get('role', '').strip()
+        job_description = request.form.get('job_description', '').strip()
+        status = request.form.get('status', 'Applied')
+        date_applied = request.form.get('date_applied') or datetime.now().strftime('%Y-%m-%d')
+        notes = request.form.get('notes', '').strip()
+        now = datetime.now().strftime('%Y-%m-%d')
+
+        conn = sqlite3.connect("applications.db")
+        cursor = conn.cursor()
+        cursor.execute("""
+            INSERT INTO applications
+                (company, role, job_description, status, date_applied, notes, status_updated_at, created_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        """, (company, role, job_description, status, date_applied, notes, now, now))
+        conn.commit()
+        conn.close()
+
+        return redirect(url_for('dashboard'))
+
+    return render_template('add_application.html', status_options=status_options)
 
 #Detailed view of the job applications
 @app.route('/view')

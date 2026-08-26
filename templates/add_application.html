@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="form-page">
+    <h1>Add application</h1>
+
+    <form method="post" action="{{ url_for('add_application') }}">
+        <div class="form-row">
+            <div class="form-field">
+                <label for="f-company">Company</label>
+                <input id="f-company" name="company" type="text" placeholder="Atlassian" required>
+            </div>
+            <div class="form-field">
+                <label for="f-role">Role</label>
+                <input id="f-role" name="role" type="text" placeholder="Junior software engineer" required>
+            </div>
+        </div>
+
+        <div class="form-field form-field-full">
+            <label for="f-desc">Job description</label>
+            <textarea id="f-desc" name="job_description" rows="5" placeholder="Paste the job description here"></textarea>
+        </div>
+
+        <div class="form-row">
+            <div class="form-field">
+                <label for="f-status">Status</label>
+                <select id="f-status" name="status">
+                    {% for option in status_options %}
+                    <option value="{{ option }}">{{ option }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-field">
+                <label for="f-date">Date applied</label>
+                <input id="f-date" name="date_applied" type="date">
+            </div>
+        </div>
+
+        <div class="form-field form-field-full">
+            <label for="f-notes">Notes</label>
+            <textarea id="f-notes" name="notes" rows="3" placeholder="Optional notes"></textarea>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn-primary">Save application</button>
+            <a href="{{ url_for('dashboard') }}" class="btn-cancel">Cancel</a>
+        </div>
+    </form>
+</div>
+
+{% endblock %}
