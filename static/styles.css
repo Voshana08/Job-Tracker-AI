@@ -1,6 +1,121 @@
-div .stat-card {
-    background-color: lightgray;
-    border-radius: 10px solid black;
-    padding :5px;
-    box-shadow: inset;
+/* ---------- Colors and fonts used across the whole site ---------- */
+:root {
+    --primary: #2563eb;
+    --primary-pressed: #1d4ed8;
+    --primary-deep: #1e3a8a;
+
+    --navy: #0a1530;
+
+    --surface: #f5f7fa;
+    --canvas: #ffffff;
+
+    --hairline: #e2e8f0;
+    --hairline-strong: #cbd5e1;
+
+    --ink: #0f172a;
+    --charcoal: #1e293b;
+    --slate: #475569;
+    --steel: #64748b;
+
+    --tint-100: #eff6ff;
+    --tint-200: #dbeafe;
+    --tint-300: #bfdbfe;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: 'Inter', -apple-system, system-ui, sans-serif;
+    background-color: var(--surface);
+    color: var(--ink);
+}
+
+a {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--primary-pressed);
+    text-decoration: underline;
+}
+
+/* ---------- Landing page ---------- */
+.hero {
+    background-color: var(--navy);
+    color: #ffffff;
+    padding: 96px 32px 72px;
+    text-align: center;
+}
+
+.hero-content {
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+.hero-title {
+    font-size: 48px;
+    font-weight: 600;
+    line-height: 1.1;
+    margin: 0 0 16px;
+}
+
+.hero-subtitle {
+    font-size: 18px;
+    line-height: 1.5;
+    opacity: 0.75;
+    margin: 0 0 32px;
+}
+
+.btn-primary {
+    background-color: var(--primary);
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 22px;
+    font-size: 15px;
+    font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-pressed);
+}
+
+.feature-grid {
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 64px 32px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.feature-card {
+    border-radius: 12px;
+    padding: 32px;
+}
+
+.feature-card:nth-child(1) { background-color: var(--tint-300); }
+.feature-card:nth-child(2) { background-color: var(--tint-200); }
+.feature-card:nth-child(3) { background-color: var(--tint-100); }
+
+.feature-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--primary-deep);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+}
+
+.feature-text {
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--charcoal);
+    margin: 0;
 }

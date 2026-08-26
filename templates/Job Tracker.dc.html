@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #2563eb; --primary-pressed: #1d4ed8; --primary-deep: #1e3a8a; --on-primary: #ffffff;
+      --navy: #0a1530; --navy-mid: #132347;
+      --canvas: #ffffff; --surface: #f5f7fa; --surface-soft: #fafbfc;
+      --hairline: #e2e8f0; --hairline-strong: #cbd5e1;
+      --ink: #0f172a; --charcoal: #1e293b; --slate: #475569; --steel: #64748b; --stone: #94a3b8; --muted: #cbd5e1;
+      --tint-100: #eff6ff; --tint-200: #dbeafe; --tint-300: #bfdbfe;
+    }
+    body { margin: 0; font-family: 'Inter', -apple-system, system-ui, sans-serif; background: var(--surface); color: var(--ink); }
+    a { color: var(--primary); text-decoration: none; }
+    a:hover { color: var(--primary-pressed); text-decoration: underline; }
+    ::selection { background: var(--tint-200); }
+    input:focus-visible, textarea:focus-visible, select:focus-visible, button:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+  </style>
+</helmet>
+<div style="min-height:100vh;background:var(--surface);">
+
+  
+
+  <nav style="display:flex;align-items:center;gap:28px;padding:16px 32px;background:var(--canvas);border-bottom:1px solid var(--hairline);">
+    <span style="font-weight:700;font-size:18px;letter-spacing:-0.3px;cursor:pointer;" onClick="{{ goLanding }}" data-om-label="Pursuit">Pursuit</span>
+    <a href="#" onClick="{{ goDashboardClick }}" style="font-size: 14px; font-weight: 500; color: var(--slate);" style-hover="color:var(--primary-pressed);text-decoration:none;">Dashboard</a>
+    <a href="#" onClick="{{ goAllApplicationsClick }}" style="font-size: 14px; font-weight: 500; color: var(--slate);" style-hover="color:var(--primary-pressed);text-decoration:none;">Applications</a>
+    <a href="#" onClick="{{ goAiScoringClick }}" style="font-size:14px;font-weight:500;color:var(--slate);" style-hover="color:var(--primary-pressed);text-decoration:none;">AI Match Scoring</a><div style="flex:1;"></div>
+    <sc-if value="{{ isAuthenticated }}" hint-placeholder-val="{{ false }}">
+      <button type="button" style="background:transparent;color:var(--ink);border:1px solid var(--hairline-strong);border-radius:8px;padding:10px 18px;font-size:14px;font-weight:500;font-family:inherit;cursor:pointer;" style-hover="background:var(--surface);" onClick="{{ logout }}">Log out</button>
+    </sc-if>
+    <sc-if value="{{ notAuthenticated }}" hint-placeholder-val="{{ true }}">
+      <button type="button" style="background:var(--primary);color:var(--on-primary);border:none;border-radius:8px;padding:10px 18px;font-size:14px;font-weight:500;font-family:inherit;cursor:pointer;" style-hover="background:var(--primary-pressed);" onClick="{{ goAuthClick }}">Log in</button>
+    </sc-if>
+  </nav>
+
+  <sc-if value="{{ isLanding }}" hint-placeholder-val="{{ true }}">
+    <div style="background:var(--navy);color:#ffffff;padding:96px 32px 72px;text-align:center;">
+      <div style="max-width:720px;margin:0 auto;">
+        <h1 style="font-size:56px;font-weight:600;line-height:1.1;letter-spacing:-1px;margin:0 0 16px;">Know if your resume fits before you apply</h1>
+        <p style="font-size:18px;line-height:1.5;opacity:0.75;margin:0 0 32px;">Track every application in one place and get a match score against each job description.</p>
+        <button type="button" style="background:var(--primary);color:var(--on-primary);border:none;border-radius:8px;padding:12px 22px;font-size:15px;font-weight:500;font-family:inherit;cursor:pointer;" style-hover="background:var(--primary-pressed);" onClick="{{ startCta }}">+ Add your first application</button>
+      </div>
+    </div>
+    <div style="max-width:1040px;margin:0 auto;padding:64px 32px;display:grid;grid-template-columns:repeat(3,1fr);gap:20px;">
+      
+      <div style="background:var(--tint-300);border-radius:12px;padding:32px;">
+        <div style="font-size:13px;font-weight:600;color:var(--primary-deep);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">One place for everything</div>
+        <p style="font-size:15px;line-height:1.5;color:var(--charcoal);margin:0;">Resumes, notes and status changes, all in one record.</p>
+      </div><div style="background:var(--tint-200);border-radius:12px;padding:32px;">
+        <div style="font-size:13px;font-weight:600;color:var(--primary-deep);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Pipeline overview</div>
+        <p style="font-size:15px;line-height:1.5;color:var(--charcoal);margin:0;">See every application by status at a glance.</p>
+      </div>
+      <div style="background:var(--tint-100);border-radius:12px;padding:32px;">
+        <div style="font-size:13px;font-weight:600;color:var(--primary-deep);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">SEE YOUR STATS</div>
+        <p style="font-size:15px;line-height:1.5;color:var(--charcoal);margin:0;"><br></p>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isAiScoring }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width:720px;margin:0 auto;padding:40px 32px;">
+      <h1 style="font-size:32px;font-weight:600;letter-spacing:-0.5px;margin:0 0 8px;">AI match scoring</h1>
+      <p style="color:var(--steel);font-size:15px;margin:0 0 28px;">Upload your resume and paste a job description to see how well you match.</p>
+
+      <div style="margin-bottom:16px;">
+        <label for="ai-resume" style="display:block;font-size:13px;font-weight:600;color:var(--slate);margin-bottom:6px;">Resume</label>
+        <label for="ai-resume" style="display:flex;flex-direction:column;align-items:center;gap:8px;border:2px dashed var(--hairline-strong);border-radius:12px;padding:28px;cursor:pointer;text-align:center;color:var(--steel);font-size:14px;">
+          <span>{{ aiResumeLabel }}</span>
+          <input id="ai-resume" type="file" accept=".pdf" onChange="{{ onAiResumeChange }}" style="display:none;" />
+        </label>
+      </div>
+
+      <div style="margin-bottom:20px;">
+        <label for="ai-desc" style="display:block;font-size:13px;font-weight:600;color:var(--slate);margin-bottom:6px;">Job description</label>
+        <textarea id="ai-desc" rows="7" value="{{ aiJobDescription }}" onChange="{{ setAiJobDescription }}" placeholder="Paste the full job description here"
+          style="width:100%;box-sizing:border-box;padding:12px 14px;border:1px solid var(--hairline-strong);border-radius:8px;font-size:15px;font-family:inherit;resize:vertical;color:var(--ink);"></textarea>
+      </div>
+
+      <button type="button" style="background:var(--primary);color:var(--on-primary);border:none;border-radius:8px;padding:10px 18px;font-size:14px;font-weight:500;font-family:inherit;cursor:pointer;" style-hover="background:var(--primary-pressed);" onClick="{{ runAiScore }}">{{ aiScoreButtonLabel }}</button>
+
+      <sc-if value="{{ hasAiResult }}" hint-placeholder-val="{{ false }}">
+        <div style="background:var(--canvas);border:1px solid var(--hairline);border-radius:12px;padding:24px;margin-top:24px;">
+          <div style="font-size:13px;color:var(--steel);margin-bottom:8px;">Score</div>
+          <div style="font-size:36px;font-weight:600;color:var(--primary-deep);margin-bottom:20px;">{{ aiResult.score }} / 5</div>
+
+          <div style="font-size:13px;color:var(--steel);margin-bottom:8px;">Why this score</div>
+          <ul style="margin:0 0 20px;padding-left:20px;">
+            <sc-for list="{{ aiResult.reasons }}" as="reason" hint-placeholder-count="4">
+              <li style="font-size:15px;line-height:1.6;color:var(--charcoal);margin-bottom:4px;">{{ reason }}</li>
+            </sc-for>
+          </ul>
+
+          <div style="font-size:13px;color:var(--steel);margin-bottom:8px;">Next steps to be a stronger candidate</div>
+          <ol style="margin:0;padding-left:20px;">
+            <sc-for list="{{ aiResult.next_steps }}" as="step" hint-placeholder-count="3">
+              <li style="font-size:15px;line-height:1.6;color:var(--charcoal);margin-bottom:4px;">{{ step }}</li>
+            </sc-for>
+          </ol>
+        </div>
+      </sc-if>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isAuth }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width:400px;margin:64px auto 0;">
+      <div style="background:var(--canvas);border:1px solid var(--hairline);border-radius:12px;padding:32px;">
+        <div style="display:flex;gap:8px;margin-bottom:24px;">
+          <button type="button" style="{{ loginTabStyle }}" onClick="{{ setLoginMode }}">Log in</button>
+          <button type="button" style="{{ signupTabStyle }}" onClick="{{ setSignupMode }}">Sign up</button>
+        </div>
+        <div style="margin-bottom:16px;">
+          <label for="auth-email" style="display:block;font-size:13px;font-weight:600;color:var(--slate);margin-bottom:6px;">Email</label>
+          <input id="auth-email" type="email" value="{{ authEmail }}" onChange="{{ setAuthEmail }}" placeholder="you@example.com" style="width:100%;box-sizing:border-box;height:44px;padding:0 14px;border:1px solid var(--hairline-strong);border-radius:8px;font-size:15px;font-family:inherit;background:var(--canvas);color:var(--ink);">
+        </div>
+        <div style="margin-bottom:16px;">
+          <label for="auth-password" style="display:block;font-size:13px;font-weight:600;color:var(--slate);margin-bottom:6px;">Password</label>
+          <input id="auth-password" type="password" value="{{ authPassword }}" onChange="{{ setAuthPassword }}" placeholder="••••••••" style="width:100%;box-sizing:border-box;height:44px;padding:0 14px;border:1px solid var(--hairline-strong);border-radius:8px;font-size:15px;font-family:inherit;background:var(--canvas);color:var(--ink);">
+        </div>
+        <sc-if value="{{ isSignupMode }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-bottom:16px;">
+            <label for="auth-confirm" style="display:block;font-size:13px;font-weight:600;color:var(--slate);margin-bottom:6px;">Confirm password</label>
+            <input id="auth-confirm" type="password" value="{{ authConfirm }}" onChange="{{ setAuthConfirm }}" placeholder="••••••••" style="width:100%;box-sizing:border-box;height:44px;padding:0 14px;border:1px solid var(--hairline-strong);border-radius:8px;font-size:15px;font-family:inherit;background:var(--canvas);color:var(--ink);">
+          </div>
+        </sc-if>
+        <sc-if value="{{ hasAuthError }}" hint-placeholder-val="{{ false }}">
+          <p style="color:#b91c1c;font-size:14px;margin:0 0 16px;">{{ authError }}</p>
+        </sc-if>
+        <button type="button" style="width:100%;background:var(--primary);color:var(--on-primary);border:none;border-radius:8px;padding:12px;font-size:15px;font-weight:500;font-family:inherit;cursor:pointer;" style-hover="background:var(--primary-pressed);" onClick="{{ submitAuth }}">{{ authSubmitLabel }}</button>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isDashboard }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width:1040px;margin:0 auto;padding:40px 32px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;">
+        <h1 style="font-size:32px;font-weight:600;letter-spacing:-0.5px;margin:0;">Dashboard</h1>
+        <button type="button" style="background:var(--primary);color:var(--on-primary);border:none;border-radius:8px;padding:10px 18px;font-size:14px;font-weight:500;font-family:inherit;cursor:pointer;" style-hover="background:var(--primary-pressed);" onClick="{{ openAddNew }}">+ Add application</button>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px;">
+        <div style="background:var(--canvas);border:1px solid var(--hairline);border-radius:12px;padding:20px;">
+          <div style="font-size:13px;color:var(--steel);margin-bottom:6px;">Total applications</div>
+          <div style="font-size:28px;font-weight:600;">{{ stats.total }}</div>
+        </div>
+        <div style="background:var(--canvas);border:1px solid var(--hairline);border-radius:12px;padding:20px;">
+          <div style="font-size:13px;color:var(--steel);margin-bottom:6px;">Response rate</div>
+          <div style="font-size:28px;font-weight:600;">{{ stats.responseRate }}%</div>
+        </div>
+        <div style="background:var(--canvas);border:1px solid var(--hairline);border-radius:12px;padding:20px;">
+          <div style="font-size:13px;color:var(--steel);margin-bottom:6px;">Avg days to interview</div>
+          <div style="font-size:28px;font-weight:600;">{{ stats.avgDaysToInterview }}</div>
+        </div>
+        <div style="background:var(--canvas);border:1px solid var(--hairline);border-radius:12px;padding:20px;">
+          <div style="font-size:13px;color:var(--steel);margin-bottom:6px;">This week</div>
+          <div style="font-size:28px;font-weight:600;">{{ stats.thisWeek }}</div>
+        </div>
+      </div>
+
+      <div style="font-size:18px;font-weight:600;margin-bottom:12px;">Pipeline</div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px;">
+        <div style="background:var(--tint-100);border-radius:12px;padding:18px;">
+          <span style="font-size:12px;font-weight:600;color:var(--primary-deep);text-transform:uppercase;letter-spacing:0.4px;">Applied</span>
+          <div style="font-size:24px;font-weight:600;margin-top:8px;">{{ stats.applied }}</div>
+        </div>
+        <div style="background:var(--tint-200);border-radius:12px;padding:18px;">
+          <span style="font-size:12px;font-weight:600;color:var(--primary-deep);text-transform:uppercase;letter-spacing:0.4px;">Interview</span>
+          <div style="font-size:24px;font-weight:600;margin-top:8px;">{{ stats.interview }}</div>
+        </div>
+        <div style="background:var(--primary);border-radius:12px;padding:18px;">
+          <span style="font-size:12px;font-weight:600;color:#ffffff;text-transform:uppercase;letter-spacing:0.4px;">Offer</span>
+          <div style="font-size:24px;font-weight:600;margin-top:8px;color:#ffffff;">{{ stats.offer }}</div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--hairline);border-radius:12px;padding:18px;">
+          <span style="font-size:12px;font-weight:600;color:var(--steel);text-transform:uppercase;letter-spacing:0.4px;">Rejected</span>
+          <div style="font-size:24px;font-weight:600;margin-top:8px;">{{ stats.rejected }}</div>
+        </div>
+      </div>
+
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px;">
+        <div style="font-size:18px;font-weight:600;">Recent applications</div>
+        <a href="#" onClick="{{ goAllApplicationsClick }}" style="font-size:14px;font-weight:500;">View all →</a>
+      </div>
+      <sc-if value="{{ hasRecentApplications }}" hint-placeholder-val="{{ true }}">
+        <div style="background:var(--canvas);border:1px solid var(--hairline);border-radius:12px;overflow:hidden;">
+          <sc-for list="{{ recentApplications }}" as="job" hint-placeholder-count="4">
+            <div onClick="{{ job.onClick }}" style="display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid var(--hairline);cursor:pointer;" style-hover="background:var(--surface);">
+              <div>
+                <div style="font-weight:600;font-size:15px;">{{ job.company }}</div>
+                <div style="color:var(--steel);font-size:14px;">{{ job.role }}</div>
+              </div>
+              <div style="display:flex;align-items:center;gap:16px;">
+                <span style="color:var(--stone);font-size:13px;">{{ job.dateAppliedFormatted }}</span>
+                <span style="{{ job.statusStyle }}">{{ job.status }}</span>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+      <sc-if value="{{ hasNoRecentApplications }}" hint-placeholder-val="{{ false }}">
+        <div style="background:var(--canvas);border:1px solid var(--hairline);border-radius:12px;text-align:center;padding:48px;color:var(--steel);">No applications match yet.</div>
+      </sc-if>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isAllApplications }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width:1040px;margin:0 auto;padding:40px 32px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;">
+        <h1 style="font-size:32px;font-weight:600;letter-spacing:-0.5px;margin:0;">All applications</h1>
+        <button type="button" style="background:var(--primary);color:var(--on-primary);border:none;border-radius:8px;padding:10px 18px;font-size:14px;font-weight:500;font-family:inherit;cursor:pointer;" style-hover="background:var(--primary-pressed);" onClick="{{ openAddNew }}">+ Add application</button>
+      </div>
+
+      <div style="display:flex;gap:12px;align-items:flex-end;margin-bottom:20px;flex-wrap:wrap;">
+        <div style="flex:1;min-width:220px;">
+          <label for="search-all" style="display:block;font-size:13px;font-weight:600;color:var(--slate);margin-bottom:6px;">Search</label>
+          <input id="search-all" value="{{ searchQuery }}" onChange="{{ setSearchQuery }}" placeholder="Company or role" style="width:100%;box-sizing:border-box;height:44px;padding:0 14px;border:1px solid var(--hairline-strong);border-radius:8px;font-size:15px;font-family:inherit;background:var(--canvas);color:var(--ink);">
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <sc-for list="{{ filterOptions }}" as="opt" hint-placeholder-count="5">
+            <button type="button" style="{{ opt.style }}" onClick="{{ opt.onClick }}">{{ opt.label }}</button>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="font-size:14px;color:var(--steel);margin-bottom:12px;">{{ filteredApplications.length }} of {{ stats.total }} applications</div>
+      <sc-if value="{{ hasApplications }}" hint-placeholder-val="{{ true }}">
+        <div style="background:var(--canvas);border:1px solid var(--hairline);border-radius:12px;overflow:hidden;">
+          <sc-for list="{{ filteredApplications }}" as="job" hint-placeholder-count="4">
+            <div onClick="{{ job.onClick }}" style="display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid var(--hairline);cursor:pointer;" style-hover="background:var(--surface);">
+              <div>
+                <div style="font-weight:600;font-size:15px;">{{ job.company }}</div>
+                <div style="color:var(--steel);font-size:14px;">{{ job.role }}</div>
+              </div>
+              <div style="display:flex;align-items:center;gap:16px;">
+                <span style="color:var(--stone);font-size:13px;">{{ job.dateAppliedFormatted }}</span>
+                <span style="{{ job.statusStyle }}">{{ job.status }}</span>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+      <sc-if value="{{ hasNoApplications }}" hint-placeholder-val="{{ false }}">
+        <div style="background:var(--canvas);border:1px solid var(--hairline);border-radius:12px;text-align:center;padding:48px;color:var(--steel);">No applications match yet.</div>
+      </sc-if>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isDetails }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width:720px;margin:0 auto;padding:40px 32px;">
+      <a href="#" onClick="{{ backToDashboard }}" style="display:inline-block;margin-bottom:20px;font-size:14px;">← Back to dashboard</a>
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+        <div>
+          <h1 style="font-size:32px;font-weight:600;letter-spacing:-0.5px;margin:0;">{{ selectedJob.company }}</h1>
+          <p style="color:var(--steel);margin:6px 0 0;font-size:15px;">{{ selectedJob.role }} · Applied {{ selectedJob.dateAppliedFormatted }}</p>
+        </div>
+        <div style="display:flex;gap:8px;">
+          <button type="button" style="background:transparent;color:var(--ink);border:1px solid var(--hairline-strong);border-radius:8px;padding:10px 16px;font-size:14px;font-weight:500;font-family:inherit;cursor:pointer;" onClick="{{ editSelected }}">Edit</button>
+          <button type="button" style="background:transparent;color:#b91c1c;border:none;border-radius:8px;padding:10px 16px;font-size:14px;font-weight:500;font-family:inherit;cursor:pointer;" onClick="{{ deleteSelected }}">Delete</button>
+        </div>
+      </div>
+
+      <sc-if value="{{ selectedJob.hasMatchScore }}" hint-placeholder-val="{{ false }}">
+        <div style="background:var(--canvas);border:1px solid var(--hairline);border-radius:12px;padding:24px;margin-top:24px;display:grid;grid-template-columns:1fr 2fr;gap:20px;">
+          <div>
+            <div style="font-size:13px;color:var(--steel);margin-bottom:6px;">Match score</div>
+            <div style="font-size:36px;font-weight:600;color:var(--primary-deep);">{{ selectedJob.matchScore }}%</div>
+          </div>
+          <div>
+            <div style="font-size:13px;color:var(--steel);margin-bottom:8px;">Missing keywords</div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              <sc-for list="{{ selectedJob.missingKeywords }}" as="kw" hint-placeholder-count="3">
+                <span style="background:var(--tint-200);color:var(--primary-deep);border-radius:999px;padding:4px 12px;font-size:13px;font-weight:500;">{{ kw }}</span>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <div style="background:var(--canvas);border:1px solid var(--hairline);border-radius:12px;padding:20px;margin-top:16px;display:flex;justify-content:space-between;align-items:center;">
+        <div style="font-size:13px;color:var(--steel);">Status</div>
+        <select value="{{ selectedJob.status }}" onChange="{{ changeSelectedStatus }}" style="height:38px;padding:0 12px;border:1px solid var(--hairline-strong);border-radius:8px;font-size:14px;font-family:inherit;background:var(--canvas);color:var(--ink);">
+          <sc-for list="{{ statusOptions }}" as="s" hint-placeholder-count="4">
+            <option value="{{ s }}">{{ s }}</option>
+          </sc-for>
+        </select>
+      </div>
+
+      <div style="background:var(--canvas);border:1px solid var(--hairline);border-radius:12px;padding:20px;margin-top:16px;">
+        <div style="font-size:13px;color:var(--steel);margin-bottom:8px;">Job description</div>
+        <p style="white-space:pre-wrap;font-size:15px;line-height:1.55;margin:0;">{{ selectedJob.jobDescription }}</p>
+      </div>
+
+      <div style="background:var(--canvas);border:1px solid var(--hairline);border-radius:12px;padding:20px;margin-top:16px;">
+        <div style="font-size:13px;color:var(--steel);margin-bottom:8px;">Notes</div>
+        <textarea rows="4" value="{{ notesDraft }}" onChange="{{ setNotesDraft }}" placeholder="Add notes about this application" style="width:100%;box-sizing:border-box;padding:12px 14px;border:1px solid var(--hairline-strong);border-radius:8px;font-size:15px;font-family:inherit;resize:vertical;color:var(--ink);"></textarea>
+        <button type="button" style="margin-top:12px;background:var(--primary);color:var(--on-primary);border:none;border-radius:8px;padding:10px 18px;font-size:14px;font-weight:500;font-family:inherit;cursor:pointer;" style-hover="background:var(--primary-pressed);" onClick="{{ saveNotes }}">Save notes</button>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isAddEdit }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width:720px;margin:0 auto;padding:40px 32px;">
+      <h1 style="font-size:32px;font-weight:600;letter-spacing:-0.5px;margin:0 0 28px;">{{ formTitle }}</h1>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:16px;">
+        <div>
+          <label for="f-company" style="display:block;font-size:13px;font-weight:600;color:var(--slate);margin-bottom:6px;">Company</label>
+          <input id="f-company" value="{{ form.company }}" onChange="{{ setCompany }}" placeholder="Atlassian" style="width:100%;box-sizing:border-box;height:44px;padding:0 14px;border:1px solid var(--hairline-strong);border-radius:8px;font-size:15px;font-family:inherit;color:var(--ink);">
+        </div>
+        <div>
+          <label for="f-role" style="display:block;font-size:13px;font-weight:600;color:var(--slate);margin-bottom:6px;">Role</label>
+          <input id="f-role" value="{{ form.role }}" onChange="{{ setRole }}" placeholder="Junior software engineer" style="width:100%;box-sizing:border-box;height:44px;padding:0 14px;border:1px solid var(--hairline-strong);border-radius:8px;font-size:15px;font-family:inherit;color:var(--ink);">
+        </div>
+      </div>
+
+      <div style="margin-bottom:16px;">
+        <label for="f-desc" style="display:block;font-size:13px;font-weight:600;color:var(--slate);margin-bottom:6px;">Job description</label>
+        <textarea id="f-desc" rows="5" value="{{ form.job_description }}" onChange="{{ setJobDescription }}" placeholder="Paste the job description here" style="width:100%;box-sizing:border-box;padding:12px 14px;border:1px solid var(--hairline-strong);border-radius:8px;font-size:15px;font-family:inherit;resize:vertical;color:var(--ink);"></textarea>
+      </div>
+
+      <div style="margin-bottom:16px;">
+        <label for="f-resume" style="display:block;font-size:13px;font-weight:600;color:var(--slate);margin-bottom:6px;">Resume</label>
+        <label for="f-resume" style="display:flex;flex-direction:column;align-items:center;gap:8px;border:2px dashed var(--hairline-strong);border-radius:12px;padding:28px;cursor:pointer;text-align:center;color:var(--steel);font-size:14px;">
+          <span>{{ resumeLabel }}</span>
+          <input id="f-resume" type="file" accept=".pdf" onChange="{{ onResumeChange }}" style="display:none;">
+        </label>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:16px;">
+        <div>
+          <label for="f-status" style="display:block;font-size:13px;font-weight:600;color:var(--slate);margin-bottom:6px;">Status</label>
+          <select id="f-status" value="{{ form.status }}" onChange="{{ setStatus }}" style="width:100%;box-sizing:border-box;height:44px;padding:0 14px;border:1px solid var(--hairline-strong);border-radius:8px;font-size:15px;font-family:inherit;background:var(--canvas);color:var(--ink);">
+            <sc-for list="{{ statusOptions }}" as="s" hint-placeholder-count="4">
+              <option value="{{ s }}">{{ s }}</option>
+            </sc-for>
+          </select>
+        </div>
+        <div>
+          <label for="f-date" style="display:block;font-size:13px;font-weight:600;color:var(--slate);margin-bottom:6px;">Date applied</label>
+          <input id="f-date" type="date" value="{{ form.date_applied }}" onChange="{{ setDateApplied }}" style="width:100%;box-sizing:border-box;height:44px;padding:0 14px;border:1px solid var(--hairline-strong);border-radius:8px;font-size:15px;font-family:inherit;color:var(--ink);">
+        </div>
+      </div>
+
+      <div style="margin-bottom:24px;">
+        <label for="f-notes" style="display:block;font-size:13px;font-weight:600;color:var(--slate);margin-bottom:6px;">Notes</label>
+        <textarea id="f-notes" rows="3" value="{{ form.notes }}" onChange="{{ setNotes }}" placeholder="Optional notes" style="width:100%;box-sizing:border-box;padding:12px 14px;border:1px solid var(--hairline-strong);border-radius:8px;font-size:15px;font-family:inherit;resize:vertical;color:var(--ink);"></textarea>
+      </div>
+
+      <sc-if value="{{ hasMatchResult }}" hint-placeholder-val="{{ false }}">
+        <div style="background:var(--tint-100);border-radius:12px;padding:20px;margin-bottom:20px;">
+          <div style="font-size:13px;color:var(--primary-deep);margin-bottom:6px;">Match score</div>
+          <div style="font-size:28px;font-weight:600;color:var(--primary-deep);">{{ matchResult.score }}%</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;">
+            <sc-for list="{{ matchResult.missing_keywords }}" as="kw" hint-placeholder-count="3">
+              <span style="background:var(--tint-300);color:var(--primary-deep);border-radius:999px;padding:4px 12px;font-size:13px;font-weight:500;">{{ kw }}</span>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+
+      <div style="display:flex;gap:12px;">
+        <button type="button" style="background:transparent;color:var(--ink);border:1px solid var(--hairline-strong);border-radius:8px;padding:10px 18px;font-size:14px;font-weight:500;font-family:inherit;cursor:pointer;" onClick="{{ getMatchScore }}">{{ matchButtonLabel }}</button>
+        <button type="button" style="background:var(--primary);color:var(--on-primary);border:none;border-radius:8px;padding:10px 18px;font-size:14px;font-weight:500;font-family:inherit;cursor:pointer;" style-hover="background:var(--primary-pressed);" onClick="{{ saveApplication }}">Save application</button>
+        <button type="button" style="background:transparent;color:var(--steel);border:none;border-radius:8px;padding:10px 18px;font-size:14px;font-weight:500;font-family:inherit;cursor:pointer;" onClick="{{ cancelForm }}">Cancel</button>
+      </div>
+    </div>
+  </sc-if>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 1200, &quot;height&quot;: 900}, &quot;apiBaseUrl&quot;: {&quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Backend&quot;}}">
+/*
+FLASK INTEGRATION
+=================
+Set the "apiBaseUrl" prop (Tweaks panel) to your Flask server's URL, e.g. "http://localhost:5000".
+When empty, this component runs entirely on in-memory mock data so the UI works standalone.
+When set, it calls these endpoints — build these routes in Flask and everything above just works:
+
+  GET    {base}/api/applications                  -> [ {id, company, role, job_description,
+                                                          resume_filename, status, date_applied,
+                                                          match_score, missing_keywords, notes,
+                                                          status_updated_at, created_at}, ... ]
+  POST   {base}/api/applications                   body: same shape (no id)      -> created record
+  PUT    {base}/api/applications/<id>               body: partial record          -> updated record
+  DELETE {base}/api/applications/<id>
+  POST   {base}/api/applications/match-score        body: {job_description, resume_filename}
+                                                     -> {score, missing_keywords: [...]}
+  POST   {base}/api/auth/login                      body: {email, password}      -> {ok, error?}
+  POST   {base}/api/auth/signup                     body: {email, password}      -> {ok, error?}
+  POST   {base}/api/ai-match-score                  body: {job_description, resume_filename}
+                                                     -> {score (1-5), reasons: [...up to 6], next_steps: [...3]}
+
+If you're building server-rendered Jinja pages instead of a JSON API, keep the markup above as your
+reference and re-implement the fetch* methods below to submit real <form> posts / read data Flask
+already injected into the page.
+*/
+
+const TAG_BASE = 'border-radius:999px;padding:4px 12px;font-size:12px;font-weight:600;';
+const STATUS_TAG_STYLE = {
+  Applied: TAG_BASE + 'background:#eff6ff;color:#1e3a8a;',
+  Interview: TAG_BASE + 'background:#93c5fd;color:#1e3a8a;',
+  Offer: TAG_BASE + 'background:#2563eb;color:#ffffff;',
+  Rejected: TAG_BASE + 'background:#e2e8f0;color:#475569;',
+};
+const STATUS_OPTIONS = ['Applied', 'Interview', 'Offer', 'Rejected'];
+const FILTER_BTN_BASE = 'border-radius:8px;padding:8px 14px;font-size:14px;font-weight:500;font-family:inherit;cursor:pointer;border:1px solid var(--hairline-strong);';
+
+function daysAgo(n) {
+  const d = new Date();
+  d.setDate(d.getDate() - n);
+  return d.toISOString().slice(0, 10);
+}
+
+const MOCK_APPLICATIONS = [
+  { id: 1, company: 'Atlassian', role: 'Junior software engineer', job_description: 'We are looking for an engineer familiar with Java, Kubernetes, GraphQL and CI/CD pipelines to join our platform team.', resume_filename: 'resume.pdf', status: 'Interview', date_applied: daysAgo(14), match_score: 78, missing_keywords: ['Kubernetes', 'GraphQL', 'CI/CD'], notes: 'First round scheduled for next Tuesday. Recruiter mentioned team focuses on internal tooling.', status_updated_at: daysAgo(2), created_at: daysAgo(14) },
+  { id: 2, company: 'Canva', role: 'Full stack developer', job_description: 'React and Python experience needed, plus familiarity with design tools.', resume_filename: 'resume.pdf', status: 'Applied', date_applied: daysAgo(3), match_score: null, missing_keywords: [], notes: '', status_updated_at: daysAgo(3), created_at: daysAgo(3) },
+  { id: 3, company: 'Commonwealth Bank', role: 'Graduate developer', job_description: 'Grad program covering backend services, some Java and SQL required.', resume_filename: 'resume.pdf', status: 'Rejected', date_applied: daysAgo(20), match_score: 54, missing_keywords: ['SQL', 'Spring'], notes: 'Did not progress past first screen.', status_updated_at: daysAgo(10), created_at: daysAgo(20) },
+  { id: 4, company: 'Xero', role: 'Frontend engineer', job_description: 'TypeScript, React, accessibility-minded team.', resume_filename: 'resume.pdf', status: 'Offer', date_applied: daysAgo(30), match_score: 88, missing_keywords: [], notes: 'Offer received, negotiating start date.', status_updated_at: daysAgo(1), created_at: daysAgo(30) },
+  { id: 5, company: 'Google', role: 'Software engineer intern', job_description: 'Strong CS fundamentals, algorithms, distributed systems exposure a plus.', resume_filename: '', status: 'Applied', date_applied: daysAgo(1), match_score: null, missing_keywords: [], notes: '', status_updated_at: daysAgo(1), created_at: daysAgo(1) },
+];
+
+const EMPTY_FORM = { id: null, company: '', role: '', job_description: '', resume_filename: '', status: 'Applied', date_applied: '', match_score: null, missing_keywords: [], notes: '' };
+
+function formatDate(iso) {
+  if (!iso) return '';
+  const d = new Date(iso + 'T00:00:00');
+  if (isNaN(d.getTime())) return iso;
+  return d.toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' });
+}
+
+class Component extends DCLogic {
+  state = {
+    currentView: 'landing',
+    isAuthenticated: false,
+    authMode: 'login',
+    authEmail: '',
+    authPassword: '',
+    authConfirm: '',
+    authError: '',
+    applications: [],
+    loading: true,
+    selectedId: null,
+    notesDraft: '',
+    searchQuery: '',
+    statusFilter: 'All',
+    form: { ...EMPTY_FORM },
+    matchResult: null,
+    afterAuthView: 'dashboard',
+    aiResumeFilename: '',
+    aiJobDescription: '',
+    aiResult: null,
+  };
+
+  componentDidMount() {
+    this.loadApplications();
+  }
+
+  base() { return (this.props.apiBaseUrl || '').replace(/\/$/, ''); }
+
+  async loadApplications() {
+    this.setState({ loading: true });
+    const b = this.base();
+    if (b) {
+      try {
+        const res = await fetch(`${b}/api/applications`);
+        const data = await res.json();
+        this.setState({ applications: data, loading: false });
+      } catch (e) {
+        this.setState({ applications: [], loading: false });
+      }
+    } else {
+      this.setState({ applications: MOCK_APPLICATIONS, loading: false });
+    }
+  }
+
+  goLanding = () => this.setState({ currentView: 'landing' });
+  goDashboardClick = (e) => { e.preventDefault(); this.setState({ currentView: 'dashboard' }); };
+  goAllApplicationsClick = (e) => { if (e) e.preventDefault(); this.setState({ currentView: 'allApplications' }); };
+  goAiScoringClick = (e) => { if (e) e.preventDefault(); this.setState({ currentView: 'aiScoring' }); };
+
+  onAiResumeChange = (e) => {
+    const file = e.target.files && e.target.files[0];
+    if (file) this.setState({ aiResumeFilename: file.name });
+  };
+  setAiJobDescription = (e) => this.setState({ aiJobDescription: e.target.value });
+
+  async runAiScore() {
+    const { aiJobDescription, aiResumeFilename } = this.state;
+    const b = this.base();
+    if (b) {
+      try {
+        const res = await fetch(`${b}/api/ai-match-score`, {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ job_description: aiJobDescription, resume_filename: aiResumeFilename }),
+        });
+        const data = await res.json();
+        this.setState({ aiResult: data });
+      } catch (e) { /* leave aiResult as-is */ }
+      return;
+    }
+    // Stub scorer — replace by wiring apiBaseUrl to your Flask AI-scoring endpoint.
+    const words = Array.from(new Set((aiJobDescription || '').split(/\W+/).filter(w => w.length > 6)));
+    const score = Math.max(1, Math.min(5, 5 - Math.floor(words.length / 4)));
+    const reasons = [
+      'Resume covers several core skills mentioned in the description.',
+      'Experience level roughly matches what the role expects.',
+      words.length ? `Missing emphasis on: ${words.slice(0, 3).join(', ')}.` : 'No major keyword gaps detected.',
+      'Resume format is easy to scan for the listed responsibilities.',
+    ].slice(0, 6);
+    const nextSteps = [
+      'Add concrete examples that use the role\'s key terms.',
+      'Quantify impact with metrics tied to this role\'s responsibilities.',
+      'Reorder bullet points so the most relevant experience appears first.',
+    ];
+    this.setState({ aiResult: { score, reasons, next_steps: nextSteps } });
+  }
+  goAuthClick = (e) => { if (e) e.preventDefault(); this.setState({ currentView: 'auth', afterAuthView: 'dashboard' }); };
+  backToDashboard = (e) => { e.preventDefault(); this.setState({ currentView: 'dashboard' }); };
+  logout = () => this.setState({ isAuthenticated: false, currentView: 'landing' });
+
+  startCta = () => {
+    if (this.state.isAuthenticated) this.openAddNew();
+    else this.setState({ currentView: 'auth', afterAuthView: 'addEdit' });
+  };
+
+  setLoginMode = () => this.setState({ authMode: 'login', authError: '' });
+  setSignupMode = () => this.setState({ authMode: 'signup', authError: '' });
+  setAuthEmail = (e) => this.setState({ authEmail: e.target.value });
+  setAuthPassword = (e) => this.setState({ authPassword: e.target.value });
+  setAuthConfirm = (e) => this.setState({ authConfirm: e.target.value });
+
+  async submitAuth() {
+    const { authMode, authEmail, authPassword, authConfirm } = this.state;
+    if (!authEmail || !authPassword) { this.setState({ authError: 'Enter email and password.' }); return; }
+    if (authMode === 'signup' && authPassword !== authConfirm) { this.setState({ authError: 'Passwords do not match.' }); return; }
+    const b = this.base();
+    if (b) {
+      try {
+        const res = await fetch(`${b}/api/auth/${authMode}`, {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: authEmail, password: authPassword }),
+        });
+        const data = await res.json();
+        if (!data.ok) { this.setState({ authError: data.error || 'Something went wrong.' }); return; }
+      } catch (e) { this.setState({ authError: 'Could not reach the server.' }); return; }
+    }
+    const next = this.state.afterAuthView;
+    this.setState({ isAuthenticated: true, authError: '', currentView: next === 'addEdit' ? 'dashboard' : next });
+    if (next === 'addEdit') this.openAddNew();
+  }
+
+  openAddNew = () => this.setState({ currentView: 'addEdit', form: { ...EMPTY_FORM }, matchResult: null });
+  editSelected = () => {
+    const job = this.state.applications.find(j => j.id === this.state.selectedId);
+    if (job) this.setState({ currentView: 'addEdit', form: { ...job }, matchResult: null });
+  };
+
+  setCompany = (e) => this.setState(s => ({ form: { ...s.form, company: e.target.value } }));
+  setRole = (e) => this.setState(s => ({ form: { ...s.form, role: e.target.value } }));
+  setJobDescription = (e) => this.setState(s => ({ form: { ...s.form, job_description: e.target.value } }));
+  setStatus = (e) => this.setState(s => ({ form: { ...s.form, status: e.target.value } }));
+  setDateApplied = (e) => this.setState(s => ({ form: { ...s.form, date_applied: e.target.value } }));
+  setNotes = (e) => this.setState(s => ({ form: { ...s.form, notes: e.target.value } }));
+  onResumeChange = (e) => {
+    const file = e.target.files && e.target.files[0];
+    if (file) this.setState(s => ({ form: { ...s.form, resume_filename: file.name } }));
+  };
+
+  async getMatchScore() {
+    const { job_description, resume_filename } = this.state.form;
+    const b = this.base();
+    if (b) {
+      try {
+        const res = await fetch(`${b}/api/applications/match-score`, {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ job_description, resume_filename }),
+        });
+        const data = await res.json();
+        this.setState({ matchResult: data });
+      } catch (e) { /* leave matchResult as-is */ }
+      return;
+    }
+    // Stub scorer — replace by wiring apiBaseUrl to your Flask AI-scoring endpoint.
+    const words = Array.from(new Set((job_description || '').split(/\W+/).filter(w => w.length > 6)));
+    const missing = words.slice(0, 3);
+    const score = Math.max(40, 95 - missing.length * 8 - Math.floor(Math.random() * 10));
+    this.setState({ matchResult: { score, missing_keywords: missing } });
+  }
+
+  async saveApplication() {
+    const b = this.base();
+    const form = { ...this.state.form };
+    if (this.state.matchResult) {
+      form.match_score = this.state.matchResult.score;
+      form.missing_keywords = this.state.matchResult.missing_keywords;
+    }
+    if (b) {
+      try {
+        if (form.id) {
+          await fetch(`${b}/api/applications/${form.id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(form) });
+        } else {
+          await fetch(`${b}/api/applications`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(form) });
+        }
+      } catch (e) { /* surface a real error UI once your API is live */ }
+      await this.loadApplications();
+      this.setState({ currentView: 'dashboard' });
+      return;
+    }
+    const now = new Date().toISOString().slice(0, 10);
+    this.setState(s => {
+      let applications;
+      if (form.id) {
+        applications = s.applications.map(j => j.id === form.id ? { ...j, ...form, status_updated_at: now } : j);
+      } else {
+        const id = Math.max(0, ...s.applications.map(j => j.id)) + 1;
+        applications = [...s.applications, { ...form, id, created_at: now, status_updated_at: now }];
+      }
+      return { applications, currentView: 'dashboard' };
+    });
+  }
+
+  cancelForm = () => this.setState({ currentView: this.state.form.id ? 'details' : 'dashboard' });
+
+  selectJob = (id) => this.setState({ currentView: 'details', selectedId: id, notesDraft: (this.state.applications.find(j => j.id === id) || {}).notes || '' });
+
+  async deleteSelected() {
+    const id = this.state.selectedId;
+    const b = this.base();
+    if (b) {
+      try { await fetch(`${b}/api/applications/${id}`, { method: 'DELETE' }); } catch (e) {}
+      await this.loadApplications();
+      this.setState({ currentView: 'dashboard' });
+      return;
+    }
+    this.setState(s => ({ applications: s.applications.filter(j => j.id !== id), currentView: 'dashboard' }));
+  }
+
+  setNotesDraft = (e) => this.setState({ notesDraft: e.target.value });
+
+  async saveNotes() {
+    const id = this.state.selectedId;
+    const notes = this.state.notesDraft;
+    const b = this.base();
+    if (b) {
+      try { await fetch(`${b}/api/applications/${id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ notes }) }); } catch (e) {}
+      await this.loadApplications();
+      return;
+    }
+    this.setState(s => ({ applications: s.applications.map(j => j.id === id ? { ...j, notes } : j) }));
+  }
+
+  async changeSelectedStatus(e) {
+    const id = this.state.selectedId;
+    const status = e.target.value;
+    const now = new Date().toISOString().slice(0, 10);
+    const b = this.base();
+    if (b) {
+      try { await fetch(`${b}/api/applications/${id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ status }) }); } catch (e) {}
+      await this.loadApplications();
+      return;
+    }
+    this.setState(s => ({ applications: s.applications.map(j => j.id === id ? { ...j, status, status_updated_at: now } : j) }));
+  }
+
+  setSearchQuery = (e) => this.setState({ searchQuery: e.target.value });
+  setStatusFilter = (status) => this.setState({ statusFilter: status });
+
+  renderVals() {
+    const s = this.state;
+    const apps = s.applications || [];
+
+    const total = apps.length;
+    const responded = apps.filter(j => j.status !== 'Applied').length;
+    const responseRate = total ? Math.round((responded / total) * 100) : 0;
+    const withInterview = apps.filter(j => j.status === 'Interview' || j.status === 'Offer');
+    const avgDays = withInterview.length
+      ? Math.round(withInterview.reduce((sum, j) => {
+          const a = new Date(j.date_applied), u = new Date(j.status_updated_at || j.date_applied);
+          return sum + Math.max(0, Math.round((u - a) / 86400000));
+        }, 0) / withInterview.length)
+      : 0;
+    const weekAgo = Date.now() - 7 * 86400000;
+    const thisWeek = apps.filter(j => new Date(j.created_at).getTime() >= weekAgo).length;
+    const stats = {
+      total, responseRate, avgDaysToInterview: avgDays, thisWeek,
+      applied: apps.filter(j => j.status === 'Applied').length,
+      interview: apps.filter(j => j.status === 'Interview').length,
+      offer: apps.filter(j => j.status === 'Offer').length,
+      rejected: apps.filter(j => j.status === 'Rejected').length,
+    };
+
+    const q = s.searchQuery.trim().toLowerCase();
+    const filteredApplications = apps
+      .filter(j => s.statusFilter === 'All' || j.status === s.statusFilter)
+      .filter(j => !q || j.company.toLowerCase().includes(q) || j.role.toLowerCase().includes(q))
+      .sort((a, b) => new Date(b.date_applied) - new Date(a.date_applied))
+      .map(j => ({
+        id: j.id, company: j.company, role: j.role, status: j.status,
+        statusStyle: STATUS_TAG_STYLE[j.status] || STATUS_TAG_STYLE.Applied,
+        dateAppliedFormatted: formatDate(j.date_applied),
+        onClick: () => this.selectJob(j.id),
+      }));
+
+    const filterLabels = ['All', ...STATUS_OPTIONS];
+    const filterOptions = filterLabels.map(label => ({
+      label,
+      style: s.statusFilter === label
+        ? FILTER_BTN_BASE + 'background:var(--primary);color:#ffffff;border-color:var(--primary);'
+        : FILTER_BTN_BASE + 'background:var(--canvas);color:var(--slate);',
+      onClick: () => this.setStatusFilter(label),
+    }));
+
+    const selJob = apps.find(j => j.id === s.selectedId);
+    const selectedJob = selJob ? {
+      company: selJob.company, role: selJob.role,
+      dateAppliedFormatted: formatDate(selJob.date_applied),
+      status: selJob.status,
+      hasMatchScore: selJob.match_score !== null && selJob.match_score !== undefined,
+      matchScore: selJob.match_score,
+      missingKeywords: selJob.missing_keywords || [],
+      jobDescription: selJob.job_description,
+    } : { company: '', role: '', dateAppliedFormatted: '', status: 'Applied', hasMatchScore: false, matchScore: null, missingKeywords: [], jobDescription: '' };
+
+    const tabBase = 'flex:1;padding:10px;border-radius:8px;font-size:14px;font-weight:500;font-family:inherit;border:none;cursor:pointer;';
+
+    return {
+      isAuthenticated: s.isAuthenticated,
+      notAuthenticated: !s.isAuthenticated,
+      isLanding: s.currentView === 'landing',
+      isAuth: s.currentView === 'auth',
+      isDashboard: s.currentView === 'dashboard',
+      isAllApplications: s.currentView === 'allApplications',
+      isDetails: s.currentView === 'details',
+      isAddEdit: s.currentView === 'addEdit',
+      isAiScoring: s.currentView === 'aiScoring',
+      goLanding: this.goLanding, goDashboardClick: this.goDashboardClick, goAllApplicationsClick: this.goAllApplicationsClick, goAiScoringClick: this.goAiScoringClick, goAuthClick: this.goAuthClick,
+
+      aiResumeLabel: s.aiResumeFilename ? s.aiResumeFilename : 'Drop a PDF or click to upload',
+      aiJobDescription: s.aiJobDescription, onAiResumeChange: this.onAiResumeChange, setAiJobDescription: this.setAiJobDescription,
+      aiScoreButtonLabel: s.aiResult ? 'Re-score' : 'Get match score',
+      hasAiResult: !!s.aiResult, aiResult: s.aiResult || { score: 0, reasons: [], next_steps: [] },
+      runAiScore: () => this.runAiScore(),
+      backToDashboard: this.backToDashboard, logout: this.logout, startCta: this.startCta,
+
+      authMode: s.authMode, isSignupMode: s.authMode === 'signup',
+      loginTabStyle: tabBase + (s.authMode === 'login' ? 'background:var(--primary);color:#fff;' : 'background:transparent;color:var(--steel);'),
+      signupTabStyle: tabBase + (s.authMode === 'signup' ? 'background:var(--primary);color:#fff;' : 'background:transparent;color:var(--steel);'),
+      setLoginMode: this.setLoginMode, setSignupMode: this.setSignupMode,
+      authEmail: s.authEmail, authPassword: s.authPassword, authConfirm: s.authConfirm,
+      setAuthEmail: this.setAuthEmail, setAuthPassword: this.setAuthPassword, setAuthConfirm: this.setAuthConfirm,
+      hasAuthError: !!s.authError, authError: s.authError,
+      authSubmitLabel: s.authMode === 'login' ? 'Log in' : 'Create account',
+      submitAuth: () => this.submitAuth(),
+
+      stats,
+      searchQuery: s.searchQuery, setSearchQuery: this.setSearchQuery,
+      filterOptions, filteredApplications,
+      hasApplications: filteredApplications.length > 0,
+      hasNoApplications: filteredApplications.length === 0,
+      recentApplications: filteredApplications.slice(0, 5),
+      hasRecentApplications: filteredApplications.slice(0, 5).length > 0,
+      hasNoRecentApplications: filteredApplications.slice(0, 5).length === 0,
+      openAddNew: this.openAddNew,
+
+      selectedJob, statusOptions: STATUS_OPTIONS,
+      editSelected: this.editSelected, deleteSelected: () => this.deleteSelected(),
+      changeSelectedStatus: (e) => this.changeSelectedStatus(e),
+      notesDraft: s.notesDraft, setNotesDraft: this.setNotesDraft, saveNotes: () => this.saveNotes(),
+
+      formTitle: s.form.id ? 'Edit application' : 'Add application',
+      form: s.form,
+      setCompany: this.setCompany, setRole: this.setRole, setJobDescription: this.setJobDescription,
+      setStatus: this.setStatus, setDateApplied: this.setDateApplied, setNotes: this.setNotes,
+      onResumeChange: this.onResumeChange,
+      resumeLabel: s.form.resume_filename ? s.form.resume_filename : 'Drop a PDF or click to upload',
+      matchButtonLabel: s.matchResult ? 'Re-score match' : 'Get match score',
+      hasMatchResult: !!s.matchResult, matchResult: s.matchResult || { score: 0, missing_keywords: [] },
+      getMatchScore: () => this.getMatchScore(),
+      saveApplication: () => this.saveApplication(),
+      cancelForm: this.cancelForm,
+    };
+  }
+}
+
+</script>
+</body>
+</html>
