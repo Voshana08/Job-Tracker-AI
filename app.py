@@ -110,7 +110,7 @@ def dashboard():
                         avg_days_to_interview=round(avg_days_to_interview),
                         applied_count = applied_count,
                         interview_count = interview_count,
-                        rejected_countq = rejected_count,
+                        rejected_count = rejected_count,
                         recent_applications = recent_applications,
                         offer_count = offer_count)
 
