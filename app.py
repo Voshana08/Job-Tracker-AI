@@ -5,6 +5,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import sqlite3
 #Creating the flask app
 app = Flask(__name__)
+#These secret keys should not be hardcoded but for this project its fine.
 app.secret_key = 'voshana-dev-secret-2026'
 #Creating the routes to the different pages
 #base route
@@ -194,36 +195,43 @@ def add_application():
 #Auth page (layout only - login/signup logic to be built separately)
 @app.route('/auth',methods = ['GET','POST'])
 def auth():
+    mode = request.args.get('mode', 'login')
+    
     if request.method == 'POST':
+        conn = sqlite3.connect("applications.db")
+        conn.row_factory =sqlite3.Row
+        cursor = conn.cursor()
         username = request.form['username']
         password = request.form['password']
         
         hashed_password = generate_password_hash(password)  # hash it
-        
-        conn = sqlite3.connect("applications.db")
-        conn.row_factory =sqlite3.Row
-        cursor = conn.cursor()
-    
-        try :
-            cursor.execute(
-            "INSERT INTO users (username,password) VALUES (?, ?)",
-            ( username, hashed_password)
-            )   
-            conn.commit()
-            conn.close()
-            flash("Account created! Please log in.")
-            return redirect(url_for('dashboard'))
-
-        except sqlite3.IntegrityError:
-            conn.close()
-            flash("That username is already taken.")
-            return redirect(url_for('auth'))
+        if mode == 'signup':
+            print("Signup") 
+            try :
+                cursor.execute(
+                "INSERT INTO users (username,password) VALUES (?, ?)",
+                ( username, hashed_password)
+                )   
+                conn.commit()
+                conn.close()
+                flash("Account created! Please log in.")
+                return redirect(url_for('auth', mode='login'))
+            
+            except sqlite3.IntegrityError:
+                conn.close()
+                flash("That username is already taken.")
+                return redirect(url_for('auth'))
+            
+        elif mode == 'login':
+            print("login logic")
+            
         
     # cursor.execute("SELECT COUNT(*) FROM users")
     # total_users = cursor.fetchone()[0]
     # print("Total user logins : ",total_users)    
     
-    return render_template('auth.html')
+    return render_template('auth.html',mode=mode)
+
 
 #Detailed view of the job applications
 @app.route('/view')
