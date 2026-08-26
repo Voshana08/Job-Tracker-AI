@@ -117,10 +117,43 @@ def dashboard():
 
 
 
-# full view of applications that have been submitted 
+# full view of applications that have been submitted
 @app.route('/applications',methods = ['GET','POST'])
 def applications():
-    return render_template('applications.html')
+    conn = sqlite3.connect("applications.db")
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+
+    #Reading the search box and status filter out of the query string
+    search_query = request.args.get('q', '').strip()
+    status_filter = request.args.get('status', 'All')
+
+    cursor.execute("SELECT COUNT(*) FROM applications")
+    total_rows = cursor.fetchone()[0]
+
+    query = "SELECT company, role, status, date_applied FROM applications WHERE 1=1"
+    params = []
+
+    if status_filter != 'All':
+        query += " AND status = ?"
+        params.append(status_filter)
+
+    if search_query:
+        query += " AND (company LIKE ? OR role LIKE ?)"
+        like_term = f"%{search_query}%"
+        params.extend([like_term, like_term])
+
+    query += " ORDER BY date_applied DESC"
+    cursor.execute(query, params)
+    filtered_applications = cursor.fetchall()
+
+    conn.close()
+    return render_template('applications.html',
+                        total_rows=total_rows,
+                        filtered_applications=filtered_applications,
+                        search_query=search_query,
+                        status_filter=status_filter,
+                        status_options=['All', 'Applied', 'Interview', 'Offer', 'Rejected'])
 
 #Detailed view of the job applications
 @app.route('/view')

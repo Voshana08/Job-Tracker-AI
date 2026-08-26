@@ -30,23 +30,23 @@
     <div class="section-heading">Pipeline</div>
     <div class="pipeline-grid">
         <div class="pipeline-box pipeline-applied">
-            {% comment %} This displays the total number of job applications {% endcomment %}
+            {# This displays the total number of job applications #}
             <span class="pipeline-label">Applied</span>
             <div class="pipeline-value">{{ applied_count }}</div>
         </div>
         <div class="pipeline-box pipeline-interview">
-            {% comment %} Total number of interviews Ive got  {% endcomment %}
+            {# Total number of interviews Ive got #}
             <span class="pipeline-label">Interview</span>
             <div class="pipeline-value">{{ interview_count }}</div>
         </div>
         <div class="pipeline-box pipeline-offer">
             <span class="pipeline-label">Offer</span>
-            {% comment %} How many offers ive got  {% endcomment %}
+            {# How many offers ive got #}
             <div class="pipeline-value">{{ offer_count }}</div>
         </div>
         <div class="pipeline-box pipeline-rejected">
             <span class="pipeline-label">Rejected</span>
-            {% comment %} Rejected jobs  {% endcomment %}
+            {# Rejected jobs #}
             <div class="pipeline-value">{{ rejected_count }}</div>
         </div>
     </div>
@@ -66,11 +66,11 @@
             </div>
             <div class="recent-right">
                 <span class="recent-date">{{ recent['date_applied'] }}</span>
-                {% comment %} recent['status'] → "Interview" (what's displayed to the user)
-                recent['status']|lower    → "interview" (used to build the CSS class name)
-
-                Two different purposes from the SAME piece of data, 
-                in the same line {% endcomment %}
+                {#
+                recent['status'] → "Interview" (what's displayed to the user)
+                recent['status']|lower → "interview" (used to build the CSS class name)
+                Two different purposes from the SAME piece of data, in the same line
+                #}
                 <span class="status-tag status-{{ recent['status']|lower }}">{{ recent['status'] }}</span>
             </div>
         </div>

@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="dashboard">
+    <div class="dashboard-header">
+        <h1>All applications</h1>
+        <a href="#"><button type="button" class="btn-primary">+ Add application</button></a>
+    </div>
+
+    <form method="get" action="{{ url_for('applications') }}" class="filter-bar">
+        <div class="filter-search">
+            <label for="search-all">Search</label>
+            <input id="search-all" type="text" name="q" value="{{ search_query }}" placeholder="Company or role">
+        </div>
+        <div class="filter-buttons">
+            {% for option in status_options %}
+            <a href="{{ url_for('applications', q=search_query, status=option) }}"
+               class="filter-btn {% if status_filter == option %}filter-btn-active{% endif %}">{{ option }}</a>
+            {% endfor %}
+        </div>
+    </form>
+
+    <div class="filter-count">{{ filtered_applications|length }} of {{ total_rows }} applications</div>
+
+    {% if filtered_applications %}
+    <div class="recent-panel">
+        {% for job in filtered_applications %}
+        <div class="recent-row">
+            <div>
+                <div class="recent-company">{{ job['company'] }}</div>
+                <div class="recent-role">{{ job['role'] }}</div>
+            </div>
+            <div class="recent-right">
+                <span class="recent-date">{{ job['date_applied'] }}</span>
+                <span class="status-tag status-{{ job['status']|lower }}">{{ job['status'] }}</span>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">No applications match yet.</div>
+    {% endif %}
+</div>
+
+{% endblock %}

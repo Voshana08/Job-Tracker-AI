@@ -315,6 +315,77 @@ a:hover {
 .status-offer { background: #2563eb; color: #ffffff; }
 .status-rejected { background: #e2e8f0; color: #475569; }
 
+.filter-bar {
+    display: flex;
+    gap: 12px;
+    align-items: flex-end;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.filter-search {
+    flex: 1;
+    min-width: 220px;
+}
+
+.filter-search label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--slate);
+    margin-bottom: 6px;
+}
+
+.filter-search input {
+    width: 100%;
+    box-sizing: border-box;
+    height: 44px;
+    padding: 0 14px;
+    border: 1px solid var(--hairline-strong);
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: inherit;
+    background: var(--canvas);
+    color: var(--ink);
+}
+
+.filter-buttons {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    display: inline-block;
+    border: 1px solid var(--hairline-strong);
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-size: 15px;
+    font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+    background: var(--canvas);
+    color: var(--slate);
+}
+
+.filter-btn:hover {
+    text-decoration: none;
+    background: var(--surface);
+}
+
+.filter-btn-active,
+.filter-btn-active:hover {
+    background: var(--primary);
+    color: #ffffff;
+    border-color: var(--primary);
+}
+
+.filter-count {
+    font-size: 15px;
+    color: var(--steel);
+    margin-bottom: 16px;
+}
+
 .empty-state {
     background: var(--canvas);
     border: 1px solid var(--hairline);
