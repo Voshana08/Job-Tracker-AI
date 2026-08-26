@@ -183,6 +183,14 @@ def add_application():
 
     return render_template('add_application.html', status_options=status_options)
 
+#Auth page (layout only - login/signup logic to be built separately)
+@app.route('/auth')
+def auth():
+    mode = request.args.get('mode', 'login')
+    if mode not in ('login', 'signup'):
+        mode = 'login'
+    return render_template('auth.html', mode=mode)
+
 #Detailed view of the job applications
 @app.route('/view')
 def view():

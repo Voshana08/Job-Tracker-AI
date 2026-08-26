@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="auth-page">
+    <div class="auth-card">
+        <div class="auth-logo">Pursuit</div>
+        <h1 class="auth-heading">
+            {% if mode == 'signup' %}Create your account{% else %}Welcome back{% endif %}
+        </h1>
+        <p class="auth-subtitle">
+            {% if mode == 'signup' %}Start tracking your applications in one place.{% else %}Log in to see your application pipeline.{% endif %}
+        </p>
+
+        <div class="auth-tabs">
+            <a href="{{ url_for('auth', mode='login') }}"
+               class="auth-tab {% if mode == 'login' %}auth-tab-active{% endif %}">Log in</a>
+            <a href="{{ url_for('auth', mode='signup') }}"
+               class="auth-tab {% if mode == 'signup' %}auth-tab-active{% endif %}">Sign up</a>
+        </div>
+
+        <form method="post">
+            <div class="form-field">
+                <label for="auth-email">Email</label>
+                <input id="auth-email" name="email" type="email" placeholder="you@example.com">
+            </div>
+
+            <div class="form-field">
+                <label for="auth-password">Password</label>
+                <input id="auth-password" name="password" type="password" placeholder="••••••••">
+            </div>
+
+            {% if mode == 'signup' %}
+            <div class="form-field">
+                <label for="auth-confirm">Confirm password</label>
+                <input id="auth-confirm" name="confirm_password" type="password" placeholder="••••••••">
+            </div>
+            {% endif %}
+
+            {# Placeholder for a future auth error message, e.g. authError #}
+            {# <p class="auth-error">Something went wrong.</p> #}
+
+            <button type="submit" class="btn-primary auth-submit">
+                {% if mode == 'signup' %}Create account{% else %}Log in{% endif %}
+            </button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

@@ -386,6 +386,106 @@ a:hover {
     margin-bottom: 16px;
 }
 
+/* ---------- Auth page ---------- */
+.auth-page {
+    min-height: calc(100vh - 65px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 24px;
+    background:
+        radial-gradient(circle at 15% 15%, var(--tint-200) 0%, transparent 45%),
+        radial-gradient(circle at 85% 85%, var(--tint-100) 0%, transparent 45%),
+        var(--surface);
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 420px;
+    background: var(--canvas);
+    border: 1px solid var(--hairline);
+    border-radius: 16px;
+    padding: 40px;
+    box-shadow: 0 20px 45px -20px rgba(15, 23, 42, 0.25);
+}
+
+.auth-logo {
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: -0.3px;
+    color: var(--primary-deep);
+    margin-bottom: 20px;
+}
+
+.auth-heading {
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: -0.4px;
+    margin: 0 0 8px;
+}
+
+.auth-subtitle {
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--steel);
+    margin: 0 0 28px;
+}
+
+.auth-tabs {
+    display: flex;
+    gap: 4px;
+    background: var(--surface);
+    border-radius: 10px;
+    padding: 4px;
+    margin-bottom: 28px;
+}
+
+.auth-tab {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--steel);
+}
+
+.auth-tab:hover {
+    text-decoration: none;
+    color: var(--ink);
+}
+
+.auth-tab-active,
+.auth-tab-active:hover {
+    background: var(--canvas);
+    color: var(--ink);
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
+}
+
+.auth-card .form-field input {
+    height: 48px;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.auth-card .form-field input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--tint-100);
+}
+
+.auth-error {
+    color: #b91c1c;
+    font-size: 15px;
+    margin: 0 0 16px;
+}
+
+.auth-submit {
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+    margin-top: 8px;
+}
+
 /* ---------- Add / edit application form ---------- */
 .form-page {
     max-width: 720px;
