@@ -45,5 +45,25 @@ cursor.execute(
     "INSERT INTO applications (company, role, status,date_applied,status_updated_at) VALUES (?, ?, ?,?,?)",
     ("Anthropic", "Junior Developer", "Offer","2026-08-16","2026-08-23")
 )
+
+cursor.execute(
+    "INSERT INTO users (username,password) VALUES (?, ?)",
+    ("Voshana", "Test0")
+)
+
+cursor.execute(
+    "INSERT INTO users (username,password) VALUES (?, ?)",
+    ( "Nissanka", "Test1")
+)
+
+cursor.execute(
+    "INSERT INTO users (username,password) VALUES (?, ?)",
+    ( "VN1", "Test2")
+)
+
+cursor.execute(
+    "INSERT INTO users (username,password) VALUES (?, ?)",
+    ( "VN2", "Test3")
+)
 conn.commit()
 conn.close()

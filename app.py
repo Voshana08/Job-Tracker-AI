@@ -1,8 +1,11 @@
-from flask import Flask,render_template,request,redirect,url_for
+from flask import Flask,render_template,request,redirect,url_for,flash
 from datetime import datetime, timedelta
+from werkzeug.security import generate_password_hash, check_password_hash
+
 import sqlite3
 #Creating the flask app
 app = Flask(__name__)
+app.secret_key = 'voshana-dev-secret-2026'
 #Creating the routes to the different pages
 #base route
 
@@ -73,8 +76,13 @@ def dashboard():
         gap =(interview_date-applied_date).days
         
         day_gaps.append(gap)  # add gap into your container
-    avg_days_to_interview = sum(day_gaps) / len(day_gaps)
-    print("Average between application and Interview : ", round(avg_days_to_interview))
+    if len(day_gaps) > 0 :
+        
+        avg_days_to_interview = sum(day_gaps) / len(day_gaps)
+        print("Average between application and Interview : ", round(avg_days_to_interview))
+    else :
+        print("No applications yet, apply for a job !")
+        avg_days_to_interview = 0
     
     # Grouping all of the status to one row now, to count how many instances of the status I got 
     cursor.execute("SELECT status, COUNT(*) AS count FROM applications GROUP BY status")
@@ -184,12 +192,38 @@ def add_application():
     return render_template('add_application.html', status_options=status_options)
 
 #Auth page (layout only - login/signup logic to be built separately)
-@app.route('/auth')
+@app.route('/auth',methods = ['GET','POST'])
 def auth():
-    mode = request.args.get('mode', 'login')
-    if mode not in ('login', 'signup'):
-        mode = 'login'
-    return render_template('auth.html', mode=mode)
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        
+        hashed_password = generate_password_hash(password)  # hash it
+        
+        conn = sqlite3.connect("applications.db")
+        conn.row_factory =sqlite3.Row
+        cursor = conn.cursor()
+    
+        try :
+            cursor.execute(
+            "INSERT INTO users (username,password) VALUES (?, ?)",
+            ( username, hashed_password)
+            )   
+            conn.commit()
+            conn.close()
+            flash("Account created! Please log in.")
+            return redirect(url_for('dashboard'))
+
+        except sqlite3.IntegrityError:
+            conn.close()
+            flash("That username is already taken.")
+            return redirect(url_for('auth'))
+        
+    # cursor.execute("SELECT COUNT(*) FROM users")
+    # total_users = cursor.fetchone()[0]
+    # print("Total user logins : ",total_users)    
+    
+    return render_template('auth.html')
 
 #Detailed view of the job applications
 @app.route('/view')
