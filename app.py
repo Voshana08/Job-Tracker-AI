@@ -10,6 +10,12 @@ app.secret_key = 'voshana-dev-secret-2026'
 #Creating the routes to the different pages
 #base route
 
+#This is a context processor, its job is to make a variable available to every template.
+@app.context_processor
+def inject_user():
+    return dict(logged_in=True)
+
+
 @app.route('/',methods = ['GET','POST'])
 def home():
     return render_template('landing.html')
