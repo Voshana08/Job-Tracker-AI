@@ -1,6 +1,6 @@
 /* ---------- Colors and fonts used across the whole site ---------- */
 :root {
-    --primary: #2563eb;
+    --primary: #3bbfc1;
     --primary-pressed: #1d4ed8;
     --primary-deep: #1e3a8a;
 
@@ -72,9 +72,9 @@ a:hover {
     margin: 0 0 32px;
 }
 
-.btn-primary {
+.btn-info {
     background-color: var(--primary);
-    color: #ffffff;
+    color: #f4f3f3;
     border: none;
     border-radius: 8px;
     padding: 12px 22px;
@@ -248,7 +248,7 @@ a:hover {
 .pipeline-interview { background: var(--tint-200); }
 .pipeline-interview .pipeline-label { color: var(--primary-deep); }
 
-.pipeline-offer { background: var(--primary); }
+.pipeline-offer { background: rgb(83, 143, 202); }
 .pipeline-offer .pipeline-label,
 .pipeline-offer .pipeline-value { color: #ffffff; }
 

@@ -18,7 +18,7 @@
     <div class="navbar-spacer"></div>
     <a href="{{ url_for('auth') }}"><button type="button" class="btn-outline">Log in</button></a>
     {% if logged_in %}
-    <a href="{{ url_for('logout') }}">Log out</a>
+    <a href="{{ url_for('auth') }}">Log out</a>
 {% else %}
     <a href="{{ url_for('auth', mode='login') }}">Log in</a>
 {% endif %}
