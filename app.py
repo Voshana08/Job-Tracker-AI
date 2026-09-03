@@ -13,7 +13,7 @@ app.secret_key = 'voshana-dev-secret-2026'
 #This is a context processor, its job is to make a variable available to every template.
 @app.context_processor
 def inject_user():
-    return dict(logged_in=True)
+    return dict(logged_in='username' in session)
 
 
 @app.route('/',methods = ['GET','POST'])
@@ -272,6 +272,13 @@ def auth():
 def view():
     return render_template('view.html')
 
+#logout for users
+@app.route('/logout')
+def logout():
+    #This removes the username from session, if the username doesnt exist, it will do nothing.
+    session.pop('username', None)
+    flash("You have been logged out.")
+    return redirect(url_for('home')) 
 
 if __name__ == '__main__':
     
