@@ -17,6 +17,7 @@ def init_db():
             missing_keywords TEXT,
             notes TEXT,
             status_updated_at TEXT,
+            resume_filename TEXT
             created_at TIMESTAMP
         )
     ''')

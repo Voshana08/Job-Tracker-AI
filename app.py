@@ -1,7 +1,8 @@
 from flask import Flask,render_template,request,redirect,url_for,flash,session
 from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash, check_password_hash
-
+#This below import can create a random set of strings with Python.
+import uuid
 import sqlite3
 #Creating the flask app
 app = Flask(__name__)
@@ -182,8 +183,18 @@ def applications():
 @app.route('/applications/add', methods = ['GET','POST'])
 def add_application():
     status_options = ['Applied', 'Interview', 'Offer', 'Rejected']
-
+    
     if request.method == 'POST':
+        #This 4 lines of code are for the resume pdf when the user uploads
+        #It will change the name of the filename
+        resume_file = request.files.get('resume')
+        resume_filename = None
+        
+        if resume_file and resume_file.filename:
+                #uuid can create a random string in Python, and that string is attached to the front of the resume name.
+                resume_filename = f"{uuid.uuid4()}_{resume_file.filename}"
+                resume_file.save(f"uploads/{resume_filename}")
+            
         company = request.form.get('company', '').strip()
         role = request.form.get('role', '').strip()
         job_description = request.form.get('job_description', '').strip()
@@ -196,9 +207,9 @@ def add_application():
         cursor = conn.cursor()
         cursor.execute("""
             INSERT INTO applications
-                (company, role, job_description, status, date_applied, notes, status_updated_at, created_at)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-        """, (company, role, job_description, status, date_applied, notes, now, now))
+                (company, role, job_description, status, date_applied, notes, status_updated_at, created_at,resume_filename)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?,?)
+        """, (company, role, job_description, status, date_applied, notes, now, now,resume_filename))
         conn.commit()
         conn.close()
 
