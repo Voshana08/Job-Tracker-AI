@@ -232,7 +232,6 @@ def application_detail(id):
        flash("This application doesnt exist") 
        return redirect(url_for('applications'))
    
-
     return render_template('application_detail.html', application=application)
 
 #Scoring the resume 
