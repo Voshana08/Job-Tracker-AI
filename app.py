@@ -26,6 +26,10 @@ def dashboard():
     #I need to write the logic here, so that when im logged in it shows the dashboard with the information.
     #If not, it shows a signup or login portal for me to signup before information is displayed.
     #Connecting to the database
+    #This if line is to check if the user is not logged in. Then we shouldnt show the data.
+    if 'username' not in session:
+        return render_template('dashboard.html')
+    
     conn = sqlite3.connect("applications.db")
     conn.row_factory =sqlite3.Row
     cursor = conn.cursor()
@@ -137,6 +141,8 @@ def dashboard():
 # full view of applications that have been submitted
 @app.route('/applications',methods = ['GET','POST'])
 def applications():
+    if 'username' not in session:
+        return render_template('applications.html')
     conn = sqlite3.connect("applications.db")
     conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
