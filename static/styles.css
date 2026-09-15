@@ -566,3 +566,8 @@ a:hover {
     font-size: 16px;
     color: var(--steel);
 }
+.recent-row-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}

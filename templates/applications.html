@@ -21,21 +21,21 @@
         </div>
     </form>
 
-    <div class="filter-count">{{ filtered_applications|length }} of {{ total_rows }} applications</div>
-
-    {% if filtered_applications %}
+   {% if filtered_applications %}
     <div class="recent-panel">
         {% for job in filtered_applications %}
-        <div class="recent-row">
-            <div>
-                <div class="recent-company">{{ job['company'] }}</div>
-                <div class="recent-role">{{ job['role'] }}</div>
+        <a href="{{ url_for('application_detail', id=job['id']) }}" class="recent-row-link">
+            <div class="recent-row">
+                <div>
+                    <div class="recent-company">{{ job['company'] }}</div>
+                    <div class="recent-role">{{ job['role'] }}</div>
+                </div>
+                <div class="recent-right">
+                    <span class="recent-date">{{ job['date_applied'] }}</span>
+                    <span class="status-tag status-{{ job['status']|lower }}">{{ job['status'] }}</span>
+                </div>
             </div>
-            <div class="recent-right">
-                <span class="recent-date">{{ job['date_applied'] }}</span>
-                <span class="status-tag status-{{ job['status']|lower }}">{{ job['status'] }}</span>
-            </div>
-        </div>
+        </a>
         {% endfor %}
     </div>
     {% else %}

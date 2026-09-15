@@ -155,7 +155,7 @@ def applications():
     cursor.execute("SELECT COUNT(*) FROM applications")
     total_rows = cursor.fetchone()[0]
 
-    query = "SELECT company, role, status, date_applied FROM applications WHERE 1=1"
+    query = "SELECT id,company, role, status, date_applied FROM applications WHERE 1=1"
     params = []
 
     if status_filter != 'All':
@@ -216,7 +216,41 @@ def add_application():
         return redirect(url_for('dashboard'))
 
     return render_template('add_application.html', status_options=status_options)
+#Creating a route to view each application individually
+@app.route('/applications/<int:id>')
+def application_detail(id):
+    #Connecting to the DB
+    conn = sqlite3.connect("applications.db")
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+    #Finding the application with its id
+    cursor.execute("SELECT * FROM applications WHERE id = ?", (id,))
+    application = cursor.fetchone()
+    conn.close()
 
+    if application is None:
+       flash("This application doesnt exist") 
+       return redirect(url_for('applications'))
+   
+
+    return render_template('application_detail.html', application=application)
+
+#Scoring the resume 
+@app.route('/applications/<int:id>/score', methods=['POST'])
+def score_application(id):
+    conn = sqlite3.connect("applications.db")
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT * FROM applications WHERE id = ?", (id,))
+    application = cursor.fetchone()
+
+    if application is None:
+        flash("This is an invalid application, please update job")  # what should happen if this ID doesn't exist?
+        return redirect(url_for('applications'))
+    if application['resume_filename'] is None:
+        flash("Please upload a resume")
+        # what should happen if no resume was uploaded?
 #Auth page (layout only - login/signup logic to be built separately)
 @app.route('/auth',methods = ['GET','POST'])
 def auth():
