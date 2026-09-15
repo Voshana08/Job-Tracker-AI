@@ -5,7 +5,7 @@
 <div class="form-page">
     <h1>Add application</h1>
 
-    <form method="post" action="{{ url_for('add_application') }}">
+    <form method="post" action="{{ url_for('add_application') }}" enctype="multipart/form-data">
         <div class="form-row">
             <div class="form-field">
                 <label for="f-company">Company</label>
