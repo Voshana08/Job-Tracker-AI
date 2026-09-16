@@ -11,6 +11,7 @@ from anthropic import Anthropic
 import re
 from pypdf import PdfReader
 import json
+load_dotenv()
 #Creating the flask app
 app = Flask(__name__)
 #These secret keys should not be hardcoded but for this project its fine.
@@ -300,6 +301,9 @@ Respond with ONLY valid JSON in exactly this structure, and nothing else. Do not
 }}
 
 If there are no missing keywords, return an empty array for missing_keywords."""
+
+    #This is where the Anthropic key gets read from.
+    client = Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY"))
     # STEP 6 — call Claude
     message = client.messages.create(
     model="claude-sonnet-4-5",
