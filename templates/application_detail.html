@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block content  %}
+{% block content %}
 
 <h1>{{ application['company'] }}</h1>
 <p>{{ application['role'] }} · Applied {{ application['date_applied'] }}</p>
@@ -7,7 +7,24 @@
 <span class="status-tag status-{{ application['status']|lower }}">
     {{ application['status'] }}
 </span>
-<span class="status-tag status-{{ application['date_applied']|lower }}">
-    {{ application['date_applied'] }}
-</span>
-{% endblock  %}
+
+<h3>Job Description</h3>
+<p>{{ application['job_description'] }}</p>
+
+<h3>Notes</h3>
+{% if application['notes'] %}
+    <p>{{ application['notes'] }}</p>
+{% else %}
+    <p>No notes available</p>
+{% endif %}
+
+<h3>Resume</h3>
+{% if application['resume_filename'] %}
+    <form method="post" action="{{ url_for('score_application', id=application['id']) }}">
+        <button type="submit" class="btn-primary">Get match score</button>
+    </form>
+{% else %}
+    <p>Please upload a resume to enable AI match scoring.</p>
+{% endif %}
+
+{% endblock %}

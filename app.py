@@ -4,6 +4,13 @@ from werkzeug.security import generate_password_hash, check_password_hash
 #This below import can create a random set of strings with Python.
 import uuid
 import sqlite3
+#The packages imported below are for reading a pdf and parsing it to Claude
+import os
+from dotenv import load_dotenv
+from anthropic import Anthropic
+import re
+from pypdf import PdfReader
+import json
 #Creating the flask app
 app = Flask(__name__)
 #These secret keys should not be hardcoded but for this project its fine.
@@ -245,11 +252,82 @@ def score_application(id):
     application = cursor.fetchone()
 
     if application is None:
-        flash("This is an invalid application, please update job")  # what should happen if this ID doesn't exist?
+        conn.close()
+        flash("Application not found.")
         return redirect(url_for('applications'))
+
     if application['resume_filename'] is None:
-        flash("Please upload a resume")
-        # what should happen if no resume was uploaded?
+        conn.close()
+        flash("Upload a resume before scoring this application.")
+        return redirect(url_for('application_detail', id=id))
+
+    # STEP 4 — open the PDF and extract text
+    reader = PdfReader(f"uploads/{application['resume_filename']}")
+    resume_text = ""
+    for page in reader.pages:
+        resume_text += page.extract_text()
+    resume_text = re.sub(r'\s+', ' ', resume_text)
+
+    # STEP 5 — build the prompt
+    job_description = application['job_description']
+    prompt = f"""You are an experienced technical recruiter evaluating how well a candidate's resume matches a specific job description.
+
+JOB DESCRIPTION:
+{job_description}
+
+CANDIDATE RESUME:
+{resume_text}
+
+Evaluate the match between this resume and this job description. Consider:
+- Required skills and technologies explicitly mentioned in the job description
+- Years of experience and seniority level expected versus what the resume demonstrates
+- Relevant project or work experience that maps directly to the role's responsibilities
+- Domain or industry alignment, if the job description specifies one
+
+Score the match on a scale of 1 to 5, where:
+1 = Poor match, missing most core requirements
+2 = Weak match, missing several important requirements
+3 = Moderate match, meets some core requirements but has notable gaps
+4 = Strong match, meets most core requirements with minor gaps
+5 = Excellent match, meets or exceeds nearly all requirements
+
+Respond with ONLY valid JSON in exactly this structure, and nothing else. Do not include any explanation, preamble, or text outside the JSON object:
+
+{{
+  "score": <integer from 1 to 5>,
+  "reasoning": "<2-3 sentence explanation for the score, referencing specific evidence from the resume>",
+  "missing_keywords": ["<skill or requirement from the job description not clearly evidenced in the resume>", "..."]
+}}
+
+If there are no missing keywords, return an empty array for missing_keywords."""
+    # STEP 6 — call Claude
+    message = client.messages.create(
+    model="claude-sonnet-4-5",
+    max_tokens=300,
+    messages=[
+        {"role": "user", "content": prompt}
+    ]
+)
+
+    # STEP 7 — clean and parse
+    response_text = message.content[0].text.strip()
+    if response_text.startswith("```"):
+        response_text = response_text.split("\n", 1)[1]
+    if response_text.endswith("```"):
+        response_text = response_text.rsplit("\n", 1)[0]
+
+    try:
+        result = json.loads(response_text)
+    except json.JSONDecodeError:
+        conn.close()
+        flash("Couldn't get a match score right now. Try again.")
+        return redirect(url_for('application_detail', id=id))
+
+    # STEP 8 — UPDATE the database (new SQL keyword for you)
+    ____________
+
+    conn.close()
+    return redirect(url_for('application_detail', id=id))
 #Auth page (layout only - login/signup logic to be built separately)
 @app.route('/auth',methods = ['GET','POST'])
 def auth():
