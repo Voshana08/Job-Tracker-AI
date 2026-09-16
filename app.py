@@ -240,8 +240,14 @@ def application_detail(id):
        flash("This application doesnt exist") 
        return redirect(url_for('applications'))
    
-    return render_template('application_detail.html', application=application)
+    application = dict(application)  # convert to a plain dict so we can modify it
 
+    if application['missing_keywords']:
+        application['missing_keywords'] = json.loads(application['missing_keywords'])
+    else:
+        application['missing_keywords'] = []
+
+    return render_template('application_detail.html', application=application)
 #Scoring the resume 
 @app.route('/applications/<int:id>/score', methods=['POST'])
 def score_application(id):
@@ -295,7 +301,7 @@ Score the match on a scale of 1 to 5, where:
 Respond with ONLY valid JSON in exactly this structure, and nothing else. Do not include any explanation, preamble, or text outside the JSON object:
 
 {{
-  "score": <integer from 1 to 5>,
+  "match_score": <integer from 1 to 5>,
   "reasoning": "<2-3 sentence explanation for the score, referencing specific evidence from the resume>",
   "missing_keywords": ["<skill or requirement from the job description not clearly evidenced in the resume>", "..."]
 }}
@@ -333,10 +339,10 @@ If there are no missing keywords, return an empty array for missing_keywords."""
     # STEP 8 — UPDATE the database (new SQL keyword for you)
     cursor.execute("""
     UPDATE applications
-    SET score = ?, reasoning = ?, missing_keywords = ?
+    SET match_score = ?, reasoning = ?, missing_keywords = ?
     WHERE id = ?
 """, (result['match_score'], result['reasoning'], json.dumps(result['missing_keywords']), id))
-
+    #print(result['match_score'])
     conn.commit()
 
     conn.close()
