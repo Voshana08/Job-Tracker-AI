@@ -191,7 +191,9 @@ def applications():
 @app.route('/applications/add', methods = ['GET','POST'])
 def add_application():
     status_options = ['Applied', 'Interview', 'Offer', 'Rejected']
-    
+    if 'username' not in session:
+        flash("Please log in to continue.")
+        return redirect(url_for('auth', mode='login'))
     if request.method == 'POST':
         #This 4 lines of code are for the resume pdf when the user uploads
         #It will change the name of the filename
@@ -265,7 +267,9 @@ def score_application(id):
 
     cursor.execute("SELECT * FROM applications WHERE id = ?", (id,))
     application = cursor.fetchone()
-
+    if 'username' not in session:
+        flash("Please log in to continue.")
+        return redirect(url_for('auth', mode='login'))
     if application is None:
         conn.close()
         flash("Application not found.")
