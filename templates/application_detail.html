@@ -26,5 +26,20 @@
 {% else %}
     <p>Please upload a resume to enable AI match scoring.</p>
 {% endif %}
-
+{% if application['match_score'] %}
+    <h3>Match Score</h3>
+    <p>{{ application['match_score'] }} / 5</p>
+    
+    <h3>Reasoning</h3>
+    <p>{{ application['reasoning'] }}</p>
+    
+    {% if application['missing_keywords'] %}
+        <h3>Missing Keywords</h3>
+        <ul>
+        {% for keyword in application['missing_keywords'] %}
+            <li>{{ keyword }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+{% endif %}
 {% endblock %}

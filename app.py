@@ -224,6 +224,8 @@ def add_application():
         return redirect(url_for('dashboard'))
 
     return render_template('add_application.html', status_options=status_options)
+
+
 #Creating a route to view each application individually
 @app.route('/applications/<int:id>')
 def application_detail(id):
@@ -243,11 +245,17 @@ def application_detail(id):
     application = dict(application)  # convert to a plain dict so we can modify it
 
     if application['missing_keywords']:
+        #This convert the string format missing keywords to a actual array
+        #The missing keywords now are stored in a format of "['json','java','html']"
+        # #But with json.loads(application['missing_keywords']) it will get converted to a actual python.
+        #This list can then be manupilated.
         application['missing_keywords'] = json.loads(application['missing_keywords'])
     else:
         application['missing_keywords'] = []
 
     return render_template('application_detail.html', application=application)
+
+
 #Scoring the resume 
 @app.route('/applications/<int:id>/score', methods=['POST'])
 def score_application(id):
