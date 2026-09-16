@@ -17,7 +17,6 @@ def init_db():
             missing_keywords TEXT,
             notes TEXT,
             status_updated_at TEXT,
-            resume_filename TEXT
             created_at TIMESTAMP
         )
     ''')
@@ -29,6 +28,7 @@ def init_db():
             password TEXT
         )
     ''')
+    cursor.execute("ALTER TABLE applications ADD COLUMN reasoning TEXT")
 
     conn.commit()
     conn.close()

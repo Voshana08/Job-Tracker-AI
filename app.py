@@ -321,14 +321,23 @@ If there are no missing keywords, return an empty array for missing_keywords."""
         response_text = response_text.rsplit("\n", 1)[0]
 
     try:
+        #json.loads(response_text), converts the cleaned-up JSON string into an actual Python dictionary,
+        #for me to access result['score'], result['reasoning']
         result = json.loads(response_text)
+        #Handling the JSON error if it occurs
     except json.JSONDecodeError:
         conn.close()
         flash("Couldn't get a match score right now. Try again.")
         return redirect(url_for('application_detail', id=id))
 
     # STEP 8 — UPDATE the database (new SQL keyword for you)
-    ____________
+    cursor.execute("""
+    UPDATE applications
+    SET score = ?, reasoning = ?, missing_keywords = ?
+    WHERE id = ?
+""", (result['match_score'], result['reasoning'], json.dumps(result['missing_keywords']), id))
+
+    conn.commit()
 
     conn.close()
     return redirect(url_for('application_detail', id=id))
