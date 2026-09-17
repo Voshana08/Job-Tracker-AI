@@ -831,6 +831,65 @@ a:hover {
     }
 }
 
+/* Applications page: search + status tabs, same "case file" system as Dashboard */
+.apps-filters {
+    margin-bottom: 0;
+}
+
+.apps-search {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--case-paper-raised);
+    border: 1px solid var(--case-line-strong);
+    border-radius: 3px;
+    padding: 12px 18px;
+    margin-bottom: 18px;
+    width: 380px;
+    max-width: 100%;
+    color: var(--case-ink-faint);
+}
+
+.apps-search-input {
+    border: none;
+    background: transparent;
+    outline: none;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 15px;
+    color: var(--case-ink);
+    width: 100%;
+}
+
+.apps-tabs {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+}
+
+.apps-tab {
+    padding: 9px 18px 8px;
+    border: 1px solid var(--case-line);
+    border-bottom: none;
+    border-radius: 6px 6px 0 0;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--case-ink-soft);
+    background: var(--case-tan-tint);
+    position: relative;
+    top: 1px;
+}
+
+.apps-tab:hover {
+    text-decoration: none;
+}
+
+.apps-tab-active {
+    background: var(--case-paper-raised);
+    color: var(--case-ink);
+    border-color: var(--case-ink);
+}
+
 /* ---------- Auth page ---------- */
 .auth-page {
     min-height: calc(100vh - 65px);
