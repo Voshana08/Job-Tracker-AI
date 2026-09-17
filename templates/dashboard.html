@@ -2,79 +2,92 @@
 
 {% block content %}
 {%if logged_in %}
-<div class="dashboard">
-    <div class="dashboard-header">
-        <h1>Dashboard</h1>
-        <a href="{{ url_for('add_application') }}"><button type="button" class="btn-info">+ Add application</button></a>
+<div class="case-file dash-page">
+    <div class="dash-header">
+        <h1 class="dash-title">Dashboard</h1>
+        <a href="{{ url_for('add_application') }}">
+            <button type="button" class="btn-stamp">
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2v12M2 8h12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                New Application
+            </button>
+        </a>
     </div>
 
-    <div class="stat-grid">
-        <div class="stat-box">
-            <div class="stat-box-label">Total applications</div>
-            <div class="stat-box-value">{{ total_rows }}</div>
+    <div class="dash-stats">
+        <div class="dash-stat">
+            <div class="dash-stat-label">Total applications</div>
+            <div class="dash-stat-value">{{ total_rows }}</div>
         </div>
-        <div class="stat-box">
-            <div class="stat-box-label">Response rate</div>
-            <div class="stat-box-value">{{ response_rate }}%</div>
+        <div class="dash-stat">
+            <div class="dash-stat-label">Response rate</div>
+            <div class="dash-stat-value">{{ response_rate }}%</div>
         </div>
-        <div class="stat-box">
-            <div class="stat-box-label">Avg days to interview</div>
-            <div class="stat-box-value">{{ avg_days_to_interview }}</div>
+        <div class="dash-stat">
+            <div class="dash-stat-label">Avg days to interview</div>
+            <div class="dash-stat-value">{{ avg_days_to_interview }}</div>
         </div>
-        <div class="stat-box">
-            <div class="stat-box-label">This week</div>
-            <div class="stat-box-value">{{ applications_this_week }}</div>
-        </div>
-    </div>
-
-    <div class="section-heading">Pipeline</div>
-    <div class="pipeline-grid">
-        <div class="pipeline-box pipeline-applied">
-            {# This displays the total number of job applications #}
-            <span class="pipeline-label">Applied</span>
-            <div class="pipeline-value">{{ applied_count }}</div>
-        </div>
-        <div class="pipeline-box pipeline-interview">
-            {# Total number of interviews Ive got #}
-            <span class="pipeline-label">Interview</span>
-            <div class="pipeline-value">{{ interview_count }}</div>
-        </div>
-        <div class="pipeline-box pipeline-offer">
-            <span class="pipeline-label">Offer</span>
-            {# How many offers ive got #}
-            <div class="pipeline-value">{{ offer_count }}</div>
-        </div>
-        <div class="pipeline-box pipeline-rejected">
-            <span class="pipeline-label">Rejected</span>
-            {# Rejected jobs #}
-            <div class="pipeline-value">{{ rejected_count }}</div>
+        <div class="dash-stat">
+            <div class="dash-stat-label">This week</div>
+            <div class="dash-stat-value">{{ applications_this_week }}</div>
         </div>
     </div>
 
-    <div class="recent-header">
-        <div class="section-heading">Recent applications</div>
-        <a href="{{ url_for('applications') }}">View all &rarr;</a>
+    <div class="case-eyebrow dash-section-label">Pipeline</div>
+    <div class="dash-pipeline">
+        <div class="dash-pipe-tile dash-pipe-applied">
+            <div class="dash-pipe-head">
+                <span class="dash-pipe-name">Applied</span>
+                <span class="stamp-badge dash-badge-applied">APPLIED</span>
+            </div>
+            <div class="dash-pipe-value">{{ applied_count }}</div>
+        </div>
+        <div class="dash-pipe-tile dash-pipe-interview">
+            <div class="dash-pipe-head">
+                <span class="dash-pipe-name">Interview</span>
+                <span class="stamp-badge dash-badge-interview">INTERVIEW</span>
+            </div>
+            <div class="dash-pipe-value">{{ interview_count }}</div>
+        </div>
+        <div class="dash-pipe-tile dash-pipe-offer">
+            <div class="dash-pipe-head">
+                <span class="dash-pipe-name">Offer</span>
+                <span class="stamp-badge dash-badge-offer">OFFER</span>
+            </div>
+            <div class="dash-pipe-value">{{ offer_count }}</div>
+        </div>
+        <div class="dash-pipe-tile dash-pipe-rejected">
+            <div class="dash-pipe-head">
+                <span class="dash-pipe-name">Rejected</span>
+                <span class="stamp-badge dash-badge-rejected">REJECTED</span>
+            </div>
+            <div class="dash-pipe-value">{{ rejected_count }}</div>
+        </div>
+    </div>
+
+    <div class="dash-recent-header">
+        <div class="case-eyebrow">Recent applications</div>
+        <a href="{{ url_for('applications') }}" class="dash-view-all">View all &rarr;</a>
     </div>
 
     {% if recent_applications %}
-    {% for recent in recent_applications %}
-<a href="{{ url_for('application_detail', id=recent['id']) }}" class="recent-row-link">
-    <div class="recent-row">
-        <div>
-            <div class="recent-company">{{ recent['company'] }}</div>
-            <div class="recent-role">{{ recent['role'] }}</div>
-        </div>
-        <div class="recent-right">
-            <span class="recent-date">{{ recent['date_applied'] }}</span>
-            <span class="status-tag status-{{ recent['status']|lower }}">{{ recent['status'] }}</span>
-        </div>
-    </div>
-</a>
-
+    <div class="dash-list">
+        {% for recent in recent_applications %}
+        <a href="{{ url_for('application_detail', id=recent['id']) }}" class="dash-row-link">
+            <div class="dash-row">
+                <div>
+                    <div class="dash-row-company">{{ recent['company'] }}</div>
+                    <div class="dash-row-role">{{ recent['role'] }}</div>
+                </div>
+                <div class="dash-row-right">
+                    <span class="dash-row-date">{{ recent['date_applied'] }}</span>
+                    <span class="stamp-badge dash-badge-{{ recent['status']|lower }}">{{ recent['status'] }}</span>
+                </div>
+            </div>
+        </a>
         {% endfor %}
     </div>
     {% else %}
-    <div class="empty-state">No applications match yet.</div>
+    <div class="dash-empty">No applications match yet.</div>
     {% endif %}
 {% else%}
 <div class="login-prompt">
