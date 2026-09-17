@@ -46,12 +46,12 @@
     {% else %}
     <div class="dash-empty">No applications match yet.</div>
     {% endif %}
-{%endif %}
-<div class="login-prompt">
-        <p>Log in to view your Applications.</p>
-        <a href="{{ url_for('auth', mode='login') }}">Log in</a>
-    </div>
-
 </div>
+{% else %}
+<div class="login-prompt">
+    <p>Log in to view your Applications.</p>
+    <a href="{{ url_for('auth', mode='login') }}">Log in</a>
+</div>
+{% endif %}
 
 {% endblock %}
