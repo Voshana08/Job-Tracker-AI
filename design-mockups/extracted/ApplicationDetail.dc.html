@@ -1,0 +1,120 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600;700&family=Special+Elite&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --paper: oklch(0.95 0.014 85); --paper-raised: oklch(0.985 0.008 85);
+      --ink: oklch(0.24 0.02 75); --ink-soft: oklch(0.48 0.02 75); --ink-faint: oklch(0.64 0.015 75);
+      --line: oklch(0.82 0.018 80); --line-strong: oklch(0.68 0.02 80);
+      --forest: oklch(0.36 0.08 155); --forest-deep: oklch(0.26 0.07 155); --forest-tint: oklch(0.92 0.03 155);
+      --slateblue: oklch(0.53 0.07 245); --tan: oklch(0.58 0.03 75); --tan-tint: oklch(0.91 0.015 75);
+    }
+    *{box-sizing:border-box;}
+    body{margin:0;background:var(--paper);color:var(--ink);font-family:'IBM Plex Sans',-apple-system,sans-serif;}
+    a{color:var(--forest-deep);text-decoration:none;} a:hover{color:var(--forest);}
+    .eyebrow{font-family:'Special Elite','Courier New',monospace;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-soft);}
+    .serif{font-family:'Newsreader',Georgia,serif;}
+    .mono{font-family:'Special Elite','Courier New',monospace;}
+    .btn-stamp{display:inline-flex;align-items:center;gap:8px;background:var(--forest);color:var(--paper-raised);font-weight:600;font-size:14.5px;padding:13px 24px;border:1.5px solid var(--forest-deep);border-radius:3px;box-shadow:2px 2px 0 var(--forest-deep);}
+    .exhibit{background:var(--paper-raised);border:1px solid var(--line);border-radius:2px;position:relative;padding:26px 26px 22px;margin-bottom:22px;}
+    .exhibit-tab{position:absolute;top:-13px;left:22px;background:var(--ink);color:var(--paper);font-family:'Special Elite',monospace;font-size:11px;letter-spacing:1px;padding:5px 12px;border-radius:2px;}
+    .keyword-tag{display:inline-flex;align-items:center;gap:6px;background:var(--tan-tint);border:1px solid var(--line-strong);color:oklch(0.4 0.03 75);font-size:12.5px;font-family:'Special Elite',monospace;padding:5px 11px;border-radius:2px;}
+  </style>
+</helmet>
+
+<div style="width:1440px;background:var(--paper);position:relative;">
+
+  <div style="display:flex;align-items:center;gap:36px;padding:20px 56px;border-bottom:1.5px solid var(--ink);">
+    <div style="display:flex;align-items:baseline;gap:8px;">
+      <svg width="20" height="16" viewBox="0 0 22 18" fill="none"><path d="M1 4C1 2.3 2.3 1 4 1h5l2 2.5h10C22 3.5 22 5 22 5v10c0 1.7-1.3 3-3 3H4c-1.7 0-3-1.3-3-3V4z" stroke="var(--forest-deep)" stroke-width="1.5"/></svg>
+      <span class="serif" style="font-size:21px;font-weight:600;font-style:italic;">Pursuit</span>
+    </div>
+    <span style="font-size:14.5px;color:var(--ink-soft);">Dashboard</span>
+    <span style="font-size:14.5px;color:var(--ink-soft);">Applications</span>
+    <div style="flex:1;"></div>
+    <span class="mono" style="font-size:12px;color:var(--ink-faint);">LOGGED IN AS AB21</span>
+  </div>
+
+  <div style="max-width:1000px;margin:0 auto;padding:44px 56px 80px;">
+    <a href="#" style="font-size:13.5px;font-weight:600;">&larr; Back to all applications</a>
+
+    <!-- header -->
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-top:22px;margin-bottom:8px;">
+      <div>
+        <div class="eyebrow">CASE NO. 015 &middot; FILED SEP 12, 2026</div>
+        <h1 class="serif" style="font-size:44px;font-weight:500;margin:10px 0 6px;">Atlassian</h1>
+        <div style="font-size:17px;color:var(--ink-soft);">Junior Software Engineer</div>
+        <div style="margin-top:16px;">
+          <span style="display:inline-flex;font-family:'Special Elite',monospace;font-size:11.5px;letter-spacing:1px;padding:6px 14px;border-radius:16px;border:1.5px solid var(--slateblue);color:var(--slateblue);transform:rotate(-2deg);">INTERVIEW</span>
+        </div>
+      </div>
+
+      <!-- verdict stamp -->
+      <div style="width:150px;height:150px;border-radius:50%;border:3px double var(--forest);transform:rotate(-8deg);display:flex;flex-direction:column;align-items:center;justify-content:center;background:oklch(0.36 0.08 155 / 0.06);flex-shrink:0;">
+        <div class="mono" style="font-size:10px;letter-spacing:2px;color:var(--forest-deep);">THE VERDICT</div>
+        <div class="serif" style="font-size:48px;font-weight:600;color:var(--forest-deep);line-height:1;">4<span style="font-size:20px;">/5</span></div>
+      </div>
+    </div>
+
+    <!-- reasoning -->
+    <div class="exhibit" style="margin-top:32px;">
+      <div class="exhibit-tab">EXHIBIT A &middot; THE VERDICT</div>
+      <p class="serif" style="font-style:italic;font-size:18px;line-height:1.65;color:var(--ink);margin:6px 0 18px;">
+        "Strong overlap on React, TypeScript and automated testing practices. Your resume undersells
+        collaborative work &mdash; the listing asks for cross-functional delivery, and your notes show it,
+        but the resume doesn't say so directly. Worth a line on CI/CD exposure before you apply elsewhere."
+      </p>
+      <div class="eyebrow" style="margin-bottom:10px;">GAPS IN THE RECORD</div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;">
+        <span class="keyword-tag">CI/CD</span>
+        <span class="keyword-tag">CROSS-FUNCTIONAL</span>
+        <span class="keyword-tag">GRAPHQL</span>
+        <span class="keyword-tag">ACCESSIBILITY</span>
+      </div>
+    </div>
+
+    <!-- job description -->
+    <div class="exhibit">
+      <div class="exhibit-tab">EXHIBIT B &middot; JOB DESCRIPTION</div>
+      <p style="font-size:14.5px;line-height:1.7;color:var(--ink-soft);margin:8px 0 0;">
+        We're looking for a Junior Software Engineer to join our Jira platform team. You'll work
+        across the stack in React and Java, pair with senior engineers, and ship to millions of users.
+        We value clear communication, a bias to testing, and comfort working cross-functionally with
+        design and product.
+      </p>
+    </div>
+
+    <!-- notes -->
+    <div class="exhibit">
+      <div class="exhibit-tab">EXHIBIT C &middot; FIELD NOTES</div>
+      <p style="font-size:14.5px;line-height:1.7;color:var(--ink-soft);margin:8px 0 0;">
+        Referred by a former teammate. Recruiter call went well &mdash; technical interview scheduled
+        for next Thursday. Brush up on system design basics beforehand.
+      </p>
+    </div>
+
+    <!-- resume -->
+    <div class="exhibit" style="display:flex;align-items:center;justify-content:space-between;">
+      <div>
+        <div class="exhibit-tab">EXHIBIT D &middot; RESUME ON FILE</div>
+        <div style="display:flex;align-items:center;gap:10px;margin-top:8px;">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 1h7l3 3v11H3V1z" stroke="var(--ink-soft)" stroke-width="1.4"/><path d="M10 1v3h3" stroke="var(--ink-soft)" stroke-width="1.4"/></svg>
+          <span style="font-size:14.5px;font-weight:600;">Voshana_Resume_2.pdf</span>
+        </div>
+      </div>
+      <button class="btn-stamp">Request a new verdict</button>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

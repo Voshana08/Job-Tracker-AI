@@ -57,23 +57,20 @@
     </div>
 
     {% if recent_applications %}
-    <div class="recent-panel">
-        {% for recent in recent_applications %}
-        <div class="recent-row">
-            <div>
-                <div class="recent-company">{{ recent['company'] }}</div>
-                <div class="recent-role">{{ recent['role'] }}</div>
-            </div>
-            <div class="recent-right">
-                <span class="recent-date">{{ recent['date_applied'] }}</span>
-                {#
-                recent['status'] → "Interview" (what's displayed to the user)
-                recent['status']|lower → "interview" (used to build the CSS class name)
-                Two different purposes from the SAME piece of data, in the same line
-                #}
-                <span class="status-tag status-{{ recent['status']|lower }}">{{ recent['status'] }}</span>
-            </div>
+    {% for recent in recent_applications %}
+<a href="{{ url_for('application_detail', id=recent['id']) }}" class="recent-row-link">
+    <div class="recent-row">
+        <div>
+            <div class="recent-company">{{ recent['company'] }}</div>
+            <div class="recent-role">{{ recent['role'] }}</div>
         </div>
+        <div class="recent-right">
+            <span class="recent-date">{{ recent['date_applied'] }}</span>
+            <span class="status-tag status-{{ recent['status']|lower }}">{{ recent['status'] }}</span>
+        </div>
+    </div>
+</a>
+
         {% endfor %}
     </div>
     {% else %}

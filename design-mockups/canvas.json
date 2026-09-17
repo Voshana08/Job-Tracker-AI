@@ -1,0 +1,11 @@
+{
+  "artboards": [
+    { "file": "Main.dc.html", "x": 0, "y": 0, "w": 1440, "h": 1120, "title": "Landing" },
+    { "file": "Auth.dc.html", "x": 1560, "y": 0, "w": 1000, "h": 900, "title": "Log in / Sign up" },
+    { "file": "Dashboard.dc.html", "x": 0, "y": 1240, "w": 1440, "h": 1060, "title": "Dashboard" },
+    { "file": "Applications.dc.html", "x": 1560, "y": 1240, "w": 1440, "h": 960, "title": "Applications" },
+    { "file": "ApplicationDetail.dc.html", "x": 0, "y": 2420, "w": 1440, "h": 1180, "title": "Application detail" },
+    { "file": "AddApplication.dc.html", "x": 1560, "y": 2420, "w": 1440, "h": 1080, "title": "Add application" }
+  ],
+  "launch": { "view": "canvas" }
+}

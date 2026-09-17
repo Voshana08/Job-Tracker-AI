@@ -1,0 +1,111 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600;700&family=Special+Elite&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --paper: oklch(0.95 0.014 85); --paper-raised: oklch(0.985 0.008 85);
+      --ink: oklch(0.24 0.02 75); --ink-soft: oklch(0.48 0.02 75); --ink-faint: oklch(0.64 0.015 75);
+      --line: oklch(0.82 0.018 80); --line-strong: oklch(0.68 0.02 80);
+      --forest: oklch(0.36 0.08 155); --forest-deep: oklch(0.26 0.07 155);
+    }
+    *{box-sizing:border-box;}
+    body{margin:0;background:var(--paper);color:var(--ink);font-family:'IBM Plex Sans',-apple-system,sans-serif;}
+    a{color:var(--forest-deep);text-decoration:none;} a:hover{color:var(--forest);}
+    .eyebrow{font-family:'Special Elite','Courier New',monospace;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-soft);}
+    .serif{font-family:'Newsreader',Georgia,serif;}
+    .mono{font-family:'Special Elite','Courier New',monospace;}
+    .btn-stamp{display:inline-flex;align-items:center;gap:8px;background:var(--forest);color:var(--paper-raised);font-weight:600;font-size:14.5px;padding:13px 24px;border:1.5px solid var(--forest-deep);border-radius:3px;box-shadow:2px 2px 0 var(--forest-deep);}
+    .field-label{font-family:'Special Elite',monospace;font-size:11px;letter-spacing:1.5px;color:var(--ink-faint);margin-bottom:8px;display:block;}
+    .field-line{width:100%;border:none;border-bottom:1.5px solid var(--line-strong);background:transparent;font-family:'IBM Plex Sans',sans-serif;font-size:15.5px;padding:8px 2px;color:var(--ink);outline:none;}
+    .field-line::placeholder{color:var(--ink-faint);}
+    textarea.field-line{border:1.5px solid var(--line-strong);border-radius:2px;padding:12px;resize:none;font-family:'IBM Plex Sans';}
+    select.field-line{appearance:none;background:transparent;}
+  </style>
+</helmet>
+
+<div style="width:1440px;background:var(--paper);position:relative;">
+
+  <div style="display:flex;align-items:center;gap:36px;padding:20px 56px;border-bottom:1.5px solid var(--ink);">
+    <div style="display:flex;align-items:baseline;gap:8px;">
+      <svg width="20" height="16" viewBox="0 0 22 18" fill="none"><path d="M1 4C1 2.3 2.3 1 4 1h5l2 2.5h10C22 3.5 22 5 22 5v10c0 1.7-1.3 3-3 3H4c-1.7 0-3-1.3-3-3V4z" stroke="var(--forest-deep)" stroke-width="1.5"/></svg>
+      <span class="serif" style="font-size:21px;font-weight:600;font-style:italic;">Pursuit</span>
+    </div>
+    <span style="font-size:14.5px;color:var(--ink-soft);">Dashboard</span>
+    <span style="font-size:14.5px;color:var(--ink-soft);">Applications</span>
+    <div style="flex:1;"></div>
+    <span class="mono" style="font-size:12px;color:var(--ink-faint);">LOGGED IN AS AB21</span>
+  </div>
+
+  <div style="max-width:760px;margin:0 auto;padding:52px 40px 90px;">
+    <div class="eyebrow">NEW CASE INTAKE</div>
+    <h1 class="serif" style="font-size:38px;font-weight:500;margin:10px 0 6px;">File a new application</h1>
+    <p style="color:var(--ink-soft);font-size:15px;margin:0 0 40px;">One record, kept together &mdash; you can add or update anything later.</p>
+
+    <div style="background:var(--paper-raised);border:1px solid var(--line);border-radius:2px;padding:40px;">
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-bottom:28px;">
+        <div>
+          <label class="field-label">COMPANY</label>
+          <input class="field-line" type="text" placeholder="Atlassian">
+        </div>
+        <div>
+          <label class="field-label">ROLE</label>
+          <input class="field-line" type="text" placeholder="Junior Software Engineer">
+        </div>
+      </div>
+
+      <div style="margin-bottom:28px;">
+        <label class="field-label">JOB DESCRIPTION</label>
+        <textarea class="field-line" rows="4" placeholder="Paste the job description here"></textarea>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-bottom:28px;">
+        <div>
+          <label class="field-label">STATUS</label>
+          <select class="field-line">
+            <option>Applied</option>
+            <option>Interview</option>
+            <option>Offer</option>
+            <option>Rejected</option>
+          </select>
+        </div>
+        <div>
+          <label class="field-label">DATE FILED</label>
+          <input class="field-line" type="text" placeholder="17 Sep 2026">
+        </div>
+      </div>
+
+      <div style="margin-bottom:28px;">
+        <label class="field-label">FIELD NOTES</label>
+        <textarea class="field-line" rows="3" placeholder="Optional &mdash; referral, interview prep, anything worth remembering"></textarea>
+      </div>
+
+      <div style="margin-bottom:36px;">
+        <label class="field-label">RESUME</label>
+        <div style="border:1.5px dashed var(--line-strong);border-radius:3px;padding:22px;display:flex;align-items:center;gap:14px;">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M13 3.5L6 10.5a3 3 0 004.24 4.24l6.5-6.5a5 5 0 00-7.07-7.07l-6.5 6.5" stroke="var(--ink-soft)" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <div>
+            <div style="font-size:14.5px;font-weight:600;">Attach a PDF</div>
+            <div style="font-size:13px;color:var(--ink-faint);">Drop a file or click to browse</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:20px;">
+        <button class="btn-stamp">File this application</button>
+        <a href="#" style="font-size:14px;font-weight:600;color:var(--ink-soft);">Cancel</a>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

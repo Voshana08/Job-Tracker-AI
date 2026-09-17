@@ -1,0 +1,135 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600;700&family=Special+Elite&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --paper: oklch(0.95 0.014 85); --paper-raised: oklch(0.985 0.008 85);
+      --ink: oklch(0.24 0.02 75); --ink-soft: oklch(0.48 0.02 75); --ink-faint: oklch(0.64 0.015 75);
+      --line: oklch(0.82 0.018 80); --line-strong: oklch(0.68 0.02 80);
+      --forest: oklch(0.36 0.08 155); --forest-deep: oklch(0.26 0.07 155); --forest-tint: oklch(0.92 0.03 155);
+      --brick: oklch(0.48 0.13 35); --brick-tint: oklch(0.93 0.03 35);
+      --gold: oklch(0.6 0.13 75); --gold-tint: oklch(0.93 0.04 80);
+      --slateblue: oklch(0.53 0.07 245); --slateblue-tint: oklch(0.92 0.025 245);
+      --tan: oklch(0.58 0.03 75); --tan-tint: oklch(0.91 0.015 75);
+    }
+    *{box-sizing:border-box;}
+    body{margin:0;background:var(--paper);color:var(--ink);font-family:'IBM Plex Sans',-apple-system,sans-serif;}
+    a{color:var(--forest-deep);text-decoration:none;} a:hover{color:var(--forest);}
+    .eyebrow{font-family:'Special Elite','Courier New',monospace;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-soft);}
+    .serif{font-family:'Newsreader',Georgia,serif;}
+    .mono{font-family:'Special Elite','Courier New',monospace;}
+    .btn-stamp{display:inline-flex;align-items:center;gap:8px;background:var(--forest);color:var(--paper-raised);font-weight:600;font-size:14.5px;padding:12px 22px;border:1.5px solid var(--forest-deep);border-radius:3px;box-shadow:2px 2px 0 var(--forest-deep);}
+    .stat-card{background:var(--paper-raised);border:1px solid var(--line);border-top:3px solid var(--forest-deep);border-radius:2px;padding:20px 22px;}
+    .stamp-badge{display:inline-flex;align-items:center;justify-content:center;font-family:'Special Elite',monospace;font-size:11px;letter-spacing:1px;padding:5px 12px;border-radius:14px;border:1.5px solid currentColor;transform:rotate(-2deg);white-space:nowrap;}
+    .ledger{background:repeating-linear-gradient(var(--paper-raised) 0 55px, oklch(0.36 0.08 155 / 0.06) 55px 56px);}
+    .row{display:flex;align-items:center;padding:16px 22px;border-bottom:1px solid var(--line);}
+    .row:last-child{border-bottom:none;}
+  </style>
+</helmet>
+
+<div style="width:1440px;background:var(--paper);position:relative;">
+
+  <div style="display:flex;align-items:center;gap:36px;padding:20px 56px;border-bottom:1.5px solid var(--ink);">
+    <div style="display:flex;align-items:baseline;gap:8px;">
+      <svg width="20" height="16" viewBox="0 0 22 18" fill="none"><path d="M1 4C1 2.3 2.3 1 4 1h5l2 2.5h10C22 3.5 22 5 22 5v10c0 1.7-1.3 3-3 3H4c-1.7 0-3-1.3-3-3V4z" stroke="var(--forest-deep)" stroke-width="1.5"/></svg>
+      <span class="serif" style="font-size:21px;font-weight:600;font-style:italic;">Pursuit</span>
+    </div>
+    <span style="font-weight:600;font-size:14.5px;border-bottom:2px solid var(--forest-deep);padding-bottom:2px;">Dashboard</span>
+    <span style="font-size:14.5px;color:var(--ink-soft);">Applications</span>
+    <div style="flex:1;"></div>
+    <span class="mono" style="font-size:12px;color:var(--ink-faint);">LOGGED IN AS AB21</span>
+  </div>
+
+  <div style="padding:44px 56px 60px;">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:34px;">
+      <div>
+        <div class="eyebrow">CASE LOG &middot; SEPTEMBER 2026</div>
+        <h1 class="serif" style="font-size:36px;font-weight:500;margin:8px 0 0;">Dashboard</h1>
+      </div>
+      <button class="btn-stamp">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2v12M2 8h12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        File new application
+      </button>
+    </div>
+
+    <!-- stats -->
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-bottom:44px;">
+      <div class="stat-card">
+        <div class="mono" style="font-size:11px;letter-spacing:1.5px;color:var(--ink-faint);">TOTAL APPLICATIONS</div>
+        <div class="serif" style="font-size:40px;font-weight:600;margin-top:8px;">24</div>
+      </div>
+      <div class="stat-card">
+        <div class="mono" style="font-size:11px;letter-spacing:1.5px;color:var(--ink-faint);">RESPONSE RATE</div>
+        <div class="serif" style="font-size:40px;font-weight:600;margin-top:8px;">38%</div>
+      </div>
+      <div class="stat-card">
+        <div class="mono" style="font-size:11px;letter-spacing:1.5px;color:var(--ink-faint);">AVG. DAYS TO INTERVIEW</div>
+        <div class="serif" style="font-size:40px;font-weight:600;margin-top:8px;">6.2</div>
+      </div>
+      <div class="stat-card">
+        <div class="mono" style="font-size:11px;letter-spacing:1.5px;color:var(--ink-faint);">FILED THIS WEEK</div>
+        <div class="serif" style="font-size:40px;font-weight:600;margin-top:8px;">3</div>
+      </div>
+    </div>
+
+    <!-- pipeline -->
+    <div class="eyebrow" style="margin-bottom:14px;">PIPELINE</div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-bottom:48px;">
+      <div style="background:var(--tan-tint);border:1px solid var(--line);border-radius:2px;padding:18px 20px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-weight:600;font-size:14.5px;">Applied</span><span class="stamp-badge" style="color:var(--tan);">APPLIED</span></div>
+        <div class="serif" style="font-size:32px;font-weight:600;margin-top:10px;color:oklch(0.4 0.03 75);">11</div>
+      </div>
+      <div style="background:var(--slateblue-tint);border:1px solid var(--line);border-radius:2px;padding:18px 20px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-weight:600;font-size:14.5px;">Interview</span><span class="stamp-badge" style="color:var(--slateblue);">INTERVIEW</span></div>
+        <div class="serif" style="font-size:32px;font-weight:600;margin-top:10px;color:var(--slateblue);">7</div>
+      </div>
+      <div style="background:var(--gold-tint);border:1px solid var(--line);border-radius:2px;padding:18px 20px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-weight:600;font-size:14.5px;">Offer</span><span class="stamp-badge" style="color:var(--gold);">OFFER</span></div>
+        <div class="serif" style="font-size:32px;font-weight:600;margin-top:10px;color:oklch(0.5 0.13 75);">2</div>
+      </div>
+      <div style="background:var(--brick-tint);border:1px solid var(--line);border-radius:2px;padding:18px 20px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-weight:600;font-size:14.5px;">Rejected</span><span class="stamp-badge" style="color:var(--brick);">REJECTED</span></div>
+        <div class="serif" style="font-size:32px;font-weight:600;margin-top:10px;color:var(--brick);">4</div>
+      </div>
+    </div>
+
+    <!-- recent -->
+    <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px;">
+      <div class="eyebrow">RECENT APPLICATIONS</div>
+      <a href="#" style="font-size:13.5px;font-weight:600;">View all &rarr;</a>
+    </div>
+    <div class="ledger" style="border:1px solid var(--line);border-radius:2px;">
+      <div class="row">
+        <div style="flex:1;"><div class="serif" style="font-size:17px;font-weight:600;">Atlassian</div><div style="color:var(--ink-soft);font-size:13.5px;">Junior Software Engineer</div></div>
+        <span class="mono" style="font-size:12.5px;color:var(--ink-faint);margin-right:24px;">SEP 12</span>
+        <span class="stamp-badge" style="color:var(--slateblue);">INTERVIEW</span>
+      </div>
+      <div class="row">
+        <div style="flex:1;"><div class="serif" style="font-size:17px;font-weight:600;">Canva</div><div style="color:var(--ink-soft);font-size:13.5px;">Product Designer</div></div>
+        <span class="mono" style="font-size:12.5px;color:var(--ink-faint);margin-right:24px;">SEP 09</span>
+        <span class="stamp-badge" style="color:var(--tan);">APPLIED</span>
+      </div>
+      <div class="row">
+        <div style="flex:1;"><div class="serif" style="font-size:17px;font-weight:600;">Airtree</div><div style="color:var(--ink-soft);font-size:13.5px;">Investment Analyst</div></div>
+        <span class="mono" style="font-size:12.5px;color:var(--ink-faint);margin-right:24px;">SEP 04</span>
+        <span class="stamp-badge" style="color:var(--brick);">REJECTED</span>
+      </div>
+      <div class="row">
+        <div style="flex:1;"><div class="serif" style="font-size:17px;font-weight:600;">Xero</div><div style="color:var(--ink-soft);font-size:13.5px;">Backend Engineer</div></div>
+        <span class="mono" style="font-size:12.5px;color:var(--ink-faint);margin-right:24px;">AUG 28</span>
+        <span class="stamp-badge" style="color:var(--gold);">OFFER</span>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

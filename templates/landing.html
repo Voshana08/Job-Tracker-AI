@@ -2,27 +2,87 @@
 
 {% block content %}
 
-<div class="hero">
-    <div class="hero-content">
-        <h1 class="hero-title">Know if your resume fits before you apply</h1>
-        <p class="hero-subtitle">Track every application in one place and get a match score against each job description.</p>
-        <a href="auth"><button class="btn-primary">+ Add your first application</button></a>
-    </div>
-</div>
+<div class="case-file">
 
-<div class="feature-grid">
-    <div class="feature-card">
-        <p class="feature-title">One place for everything</p>
-        <p class="feature-text">Resumes, notes and status changes, all in one record.</p>
+  <div class="case-hero">
+    <div class="case-hero-copy">
+      <h1 class="case-hero-title">
+        Know if your resume fits<br><span class="case-hero-title-em">before</span> you apply.
+      </h1>
+      <p class="case-hero-subtitle">
+        Pursuit keeps one case file per application &mdash; company, role, notes, resume &mdash;
+        and reads your resume against the job description to give it a verdict, in writing.
+      </p>
+      <div class="case-hero-actions">
+        <a href="{{ url_for('auth', mode='signup') }}">
+          <button type="button" class="btn-stamp">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2v12M2 8h12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            Get Started
+          </button>
+        </a>
+        
+      </div>
     </div>
-    <div class="feature-card">
-        <p class="feature-title">Pipeline overview</p>
-        <p class="feature-text">See every application by status at a glance.</p>
+
+    <div class="case-hero-visual">
+      <div class="case-card case-card-back">
+        <div class="case-eyebrow">Case No. 014</div>
+        <div class="case-card-company">Anthropic</div>
+        <div class="case-card-role">Frontend Engineer</div>
+      </div>
+      <div class="case-card case-card-front">
+        <div class="case-card-company">Atlassian</div>
+        <div class="case-card-role">Junior Software Engineer</div>
+        <div class="case-card-quote">
+          &ldquo;Strong overlap on React and testing practices. Add a line on CI/CD exposure.&rdquo;
+        </div>
+      </div>
+      <div class="case-stamp">
+        <div class="case-stamp-label">AI Match Score</div>
+        <div class="case-stamp-score">4<span>/5</span></div>
+      </div>
     </div>
-    <div class="feature-card">
-        <p class="feature-title">See your stats</p>
-        <p class="feature-text">Response rate, average turnaround, and more.</p>
+  </div>
+
+  <div class="case-pipeline" id="how-it-works">
+    <div class="case-pipeline-stages">
+      <div class="case-stage" data-n="1">
+        <div class="case-stage-name">Applied</div>
+      </div>
+      <div class="case-stage" data-n="2">
+        <div class="case-stage-name">Interview</div>
+      </div>
+      <div class="case-stage" data-n="3">
+        <div class="case-stage-name">Offer</div>
+      </div>
+      <div class="case-stage" data-n="4">
+        <div class="case-stage-name">Rejected</div>
+      </div>
     </div>
+  </div>
+
+  <div class="case-feature-grid">
+    <div class="case-index-card">
+      <div class="case-eyebrow case-eyebrow-accent">01</div>
+      <div class="case-index-title">One record per role</div>
+      <div class="case-index-text">Company, notes, resume and status &mdash; kept together, not spread across tabs.</div>
+    </div>
+    <div class="case-index-card">
+      <div class="case-eyebrow case-eyebrow-accent">02</div>
+      <div class="case-index-title">See the whole pipeline</div>
+      <div class="case-index-text">Response rate, time to interview, and where every case currently stands.</div>
+    </div>
+    <div class="case-index-card">
+      <div class="case-eyebrow case-eyebrow-accent">03</div>
+      <div class="case-index-title">A verdict, not a guess</div>
+      <div class="case-index-text">Claude reads your resume against the listing and scores the fit, with reasons.</div>
+    </div>
+  </div>
+
+  <div class="case-footer">
+    <span class="case-footer-brand">Pursuit</span>
+  </div>
+
 </div>
 
 {% endblock %}

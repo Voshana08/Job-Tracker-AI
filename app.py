@@ -30,126 +30,95 @@ def home():
     return render_template('landing.html')
 
 #Contact route
-@app.route('/dashboard',methods = ['GET','POST'])
+@app.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
-    #I need to write the logic here, so that when im logged in it shows the dashboard with the information.
-    #If not, it shows a signup or login portal for me to signup before information is displayed.
-    #Connecting to the database
-    #This if line is to check if the user is not logged in. Then we shouldnt show the data.
+    # If not logged in, show the login prompt version of the page.
     if 'username' not in session:
         return render_template('dashboard.html')
-    
+
     conn = sqlite3.connect("applications.db")
-    conn.row_factory =sqlite3.Row
+    conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
-    
-    #The logic to read the database and calculate the response rate
+
+    # Counting the total number of applications
     cursor.execute("SELECT COUNT(*) FROM applications")
     total_rows = cursor.fetchone()[0]
-    #print("Total rows :" , total_rows)
-    
-    #Counting the number of responded. 
-    #Using a ? placeholder prevents SQL injection
+
+    # Number of applications that have moved past "Applied"
     applied = "Applied"
     query = "SELECT COUNT(*) FROM applications WHERE status != ?"
-    #If its a single placeholder, it needs a tuple
-    cursor.execute(query,(applied,))
-    #fetchone method gives us sort of an array,even though its one number to be returned back. So use indexing.
+    cursor.execute(query, (applied,))
     responded = cursor.fetchone()[0]
-    #print("Responded to ", responded)
-   
-    
-    #Now lets calculate the response rate
-    if total_rows > 0 :
-        response_rate = round((responded/total_rows)*100)
-        print(response_rate)
+
+    # Response rate calculation, with divide-by-zero guard
+    if total_rows > 0:
+        response_rate = round((responded / total_rows) * 100)
     else:
-        response_rate =0
-        print("No job applications yet")
-    
-    #Calculating how many appliations, was put through this week (last 7 days)
-    #This may look complex, but all its doing is string manupulation. And changing the date format.
+        response_rate = 0
+
+    # Applications submitted in the last 7 days
     today = datetime.now()
     one_week_ago = today - timedelta(days=7)
-    #one_week_ago comes back as a Python datetime object
     one_week_ago_str = one_week_ago.strftime('%Y-%m-%d')
-    
-    query2 = "SELECT COUNT(*) FROM applications WHERE date_applied >= ?"
-    cursor.execute(query2,(one_week_ago_str,))
-    applications_this_week = cursor.fetchone()[0]
-    print("Applications this week : ", applications_this_week)
-    
-    #Average days to interview is the next calculation
-    #This is calculated by checking when the application was submited - the date the status changed.
-    interview1 = "Interview"
-    query3 = "SELECT date_applied,status_updated_at FROM applications WHERE status = ?"
-    cursor.execute(query3,(interview1,))
-    data_date = cursor.fetchall()
-    for row in data_date:
-        print(row['date_applied'], row['status_updated_at'])
-    
-    day_gaps = []   # empty container, created BEFORE the loop
 
+    query2 = "SELECT COUNT(*) FROM applications WHERE date_applied >= ?"
+    cursor.execute(query2, (one_week_ago_str,))
+    applications_this_week = cursor.fetchone()[0]
+
+    # Calculating the average days between applied and interview
+    interview1 = "Interview"
+    query3 = "SELECT date_applied, status_updated_at FROM applications WHERE status = ?"
+    cursor.execute(query3, (interview1,))
+    data_date = cursor.fetchall()
+
+    day_gaps = []
     for row in data_date:
         applied_date = datetime.strptime(row['date_applied'], '%Y-%m-%d')
         interview_date = datetime.strptime(row['status_updated_at'], '%Y-%m-%d')
-        # the .days gives you just the days as an int. Its part of the timedelta package.
-        
-        gap =(interview_date-applied_date).days
-        
-        day_gaps.append(gap)  # add gap into your container
-    if len(day_gaps) > 0 :
-        
+        gap = (interview_date - applied_date).days
+        day_gaps.append(gap)
+
+    if len(day_gaps) > 0:
         avg_days_to_interview = sum(day_gaps) / len(day_gaps)
-        print("Average between application and Interview : ", round(avg_days_to_interview))
-    else :
-        print("No applications yet, apply for a job !")
+    else:
         avg_days_to_interview = 0
-    
-    # Grouping all of the status to one row now, to count how many instances of the status I got 
+
+    # Pipeline counts, one per status
     cursor.execute("SELECT status, COUNT(*) AS count FROM applications GROUP BY status")
     pipeline_data = cursor.fetchall()
     status_count_dict = {}
     for row in pipeline_data:
-        print(row['status'], row['count'])
         status_count_dict[row["status"]] = row['count']
-    print(status_count_dict)
-    #Now its time to get the count for the 4 status variables.
-    #This is how you get values out of a dict, the 0 is if its null and the value doesnt exist.
-    applied_count = status_count_dict.get('Applied',0)
-    interview_count = status_count_dict.get('Interview',0)
-    offer_count = status_count_dict.get('Offer',0)
-    rejected_count = status_count_dict.get('Rejected',0)
-    
-    # Now we need to get the recently applied applications (top 5 most recent ) to be shown on the dashboard
-    query5 = "SELECT company, role, status, date_applied FROM applications ORDER BY date_applied DESC LIMIT 5"
+
+    applied_count = status_count_dict.get('Applied', 0)
+    interview_count = status_count_dict.get('Interview', 0)
+    offer_count = status_count_dict.get('Offer', 0)
+    rejected_count = status_count_dict.get('Rejected', 0)
+
+    # Most recent 5 applications, for the dashboard list
+    query5 = "SELECT id, company, role, status, date_applied FROM applications ORDER BY date_applied DESC LIMIT 5"
     cursor.execute(query5)
     recent_applications = cursor.fetchall()
-    for recent in recent_applications:
-        print(recent['date_applied'], "Date applied")
-    
 
-    
-
-    
     conn.close()
+
     return render_template('dashboard.html',
                         total_rows=total_rows,
                         response_rate=response_rate,
                         applications_this_week=applications_this_week,
                         avg_days_to_interview=round(avg_days_to_interview),
-                        applied_count = applied_count,
-                        interview_count = interview_count,
-                        rejected_count = rejected_count,
-                        recent_applications = recent_applications,
-                        offer_count = offer_count)
-
+                        applied_count=applied_count,
+                        interview_count=interview_count,
+                        rejected_count=rejected_count,
+                        recent_applications=recent_applications,
+                        offer_count=offer_count)
 
 
 
 # full view of applications that have been submitted
 @app.route('/applications',methods = ['GET','POST'])
 def applications():
+    #This check if the user is logged in.
     if 'username' not in session:
         return render_template('applications.html')
     conn = sqlite3.connect("applications.db")
