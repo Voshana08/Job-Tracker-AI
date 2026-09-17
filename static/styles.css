@@ -26,7 +26,6 @@
     /* Brand tokens for the "case file" redesign, used by shared chrome (nav) */
     --brand-ink: #2b2620;
     --brand-ink-soft: #5c564c;
-    --brand-forest: #3c6b4a;
     --brand-forest-deep: #294d34;
 }
 
@@ -58,20 +57,17 @@ a:hover {
     --case-paper-raised: #faf8f3;
     --case-ink: #2b2620;
     --case-ink-soft: #5c564c;
-    --case-ink-faint: #837d72;
     --case-line: #d6cfc0;
     --case-line-strong: #afa692;
     --case-forest: #3c6b4a;
     --case-forest-deep: #294d34;
     --case-tan-tint: #e6e0d3;
-    --case-gold-tint: #ece0c4;
 
     background: var(--case-paper);
     color: var(--case-ink);
     font-family: 'IBM Plex Sans', -apple-system, sans-serif;
 }
 
-.case-file .case-serif,
 .case-file .case-hero-title,
 .case-file .case-card-company,
 .case-file .case-stamp-score,
@@ -147,21 +143,11 @@ a:hover {
     box-shadow: 2px 2px 0 var(--case-forest-deep);
 }
 
-.case-secondary-link {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--case-ink);
-}
-
-.case-secondary-link:hover {
-    color: var(--case-forest-deep);
-}
-
 .case-hero-visual {
     flex: 1;
     position: relative;
-    height: 400px;
-    min-width: 380px;
+    height: 440px;
+    min-width: 440px;
 }
 
 .case-card {
@@ -174,7 +160,7 @@ a:hover {
 .case-card-back {
     top: 32px;
     left: 30px;
-    width: 320px;
+    width: 380px;
     padding: 20px;
     background: var(--case-tan-tint);
     transform: rotate(-3deg);
@@ -183,7 +169,7 @@ a:hover {
 .case-card-front {
     top: 0;
     left: 0;
-    width: 340px;
+    width: 400px;
     padding: 26px;
     background: var(--case-paper-raised);
 }
@@ -282,11 +268,6 @@ a:hover {
     font-weight: 600;
 }
 
-.case-stage-desc {
-    color: var(--case-ink-faint);
-    font-size: 13px;
-}
-
 /* Feature index cards */
 .case-feature-grid {
     display: grid;
@@ -339,7 +320,6 @@ a:hover {
 }
 
 .case-footer-brand {
-    font-style: normal;
     font-size: 16px;
 }
 
@@ -389,6 +369,7 @@ a:hover {
     font-size: 24px;
     font-weight: 600;
     color: var(--brand-ink);
+    margin-right: auto;
 }
 
 .navbar-link {
@@ -401,10 +382,6 @@ a:hover {
 
 .navbar-link:hover {
     color: var(--brand-forest-deep);
-}
-
-.navbar-spacer {
-    flex: 1;
 }
 
 .btn-outline {
@@ -834,3 +811,4 @@ a:hover {
     color: inherit;
     display: block;
 }
+
