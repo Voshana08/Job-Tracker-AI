@@ -2,10 +2,12 @@
 
 {% block content %}
 
-<div class="form-page">
-    <h1>Add application</h1>
+<div class="case-file detail-page form-page-case">
+    <a href="{{ url_for('applications') }}" class="detail-back">&larr; Back to applications</a>
 
-    <form method="post" action="{{ url_for('add_application') }}" enctype="multipart/form-data">
+    <h1 class="dash-title">New application</h1>
+    <br>
+    <form method="post" action="{{ url_for('add_application') }}" enctype="multipart/form-data" class="detail-card case-form">
         <div class="form-row">
             <div class="form-field">
                 <label for="f-company">Company</label>
@@ -48,7 +50,7 @@
         </div>
 
         <div class="form-actions">
-            <button type="submit" class="btn-primary">Save application</button>
+            <button type="submit" class="btn-stamp">Save application</button>
             <a href="{{ url_for('dashboard') }}" class="btn-cancel">Cancel</a>
         </div>
     </form>

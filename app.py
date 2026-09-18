@@ -283,7 +283,7 @@ Respond with ONLY valid JSON in exactly this structure, and nothing else. Do not
 
 {{
   "match_score": <integer from 1 to 5>,
-  "reasoning": "<2-3 sentence explanation for the score, referencing specific evidence from the resume>",
+  "reasoning": "<2-3 points explanation for the score, referencing specific evidence from the resume>",
   "missing_keywords": ["<skill or requirement from the job description not clearly evidenced in the resume>", "..."]
 }}
 

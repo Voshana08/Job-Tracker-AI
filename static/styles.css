@@ -1189,3 +1189,50 @@ a:hover {
     }
 }
 
+/* Add application form: case file theme */
+.form-page-case {
+    max-width: 720px;
+}
+
+.form-page-case .dash-title {
+    margin-bottom: 6px;
+}
+
+.case-form {
+    margin-top: 28px;
+}
+
+.case-file .form-field label {
+    font-family: 'Special Elite', 'Courier New', monospace;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--case-ink-faint);
+    margin-bottom: 8px;
+}
+
+.case-file .form-field input,
+.case-file .form-field select,
+.case-file .form-field textarea {
+    border: 1px solid var(--case-line);
+    border-radius: 2px;
+    background: var(--case-paper);
+    color: var(--case-ink);
+    font-family: 'Inter', sans-serif;
+}
+
+.case-file .form-field input:focus,
+.case-file .form-field select:focus,
+.case-file .form-field textarea:focus {
+    outline: none;
+    border-color: var(--case-forest-deep);
+}
+
+.case-file .btn-cancel {
+    color: var(--case-ink-soft);
+}
+
+.case-file .btn-cancel:hover {
+    color: var(--case-forest-deep);
+}
+
