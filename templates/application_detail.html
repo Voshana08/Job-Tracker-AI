@@ -1,45 +1,72 @@
 {% extends "base.html" %}
 {% block content %}
 
-<h1>{{ application['company'] }}</h1>
-<p>{{ application['role'] }} · Applied {{ application['date_applied'] }}</p>
+<div class="case-file detail-page">
+    <a href="{{ url_for('applications') }}" class="detail-back">&larr; Back to applications</a>
 
-<span class="status-tag status-{{ application['status']|lower }}">
-    {{ application['status'] }}
-</span>
+    <div class="detail-header">
+        <div>
+            <h1 class="dash-title">{{ application['company'] }}</h1>
+            <p class="detail-subtitle">{{ application['role'] }} &middot; Applied {{ application['date_applied'] }}</p>
+        </div>
+        <span class="stamp-badge dash-badge-{{ application['status']|lower }}">{{ application['status']|upper }}</span>
+    </div>
 
-<h3>Job Description</h3>
-<p>{{ application['job_description'] }}</p>
+    <div class="detail-grid">
+        <div class="detail-main">
+            <div class="detail-card">
+                <div class="case-eyebrow dash-section-label">Job description</div>
+                {% if application['job_description'] %}
+                <p class="detail-text">{{ application['job_description'] }}</p>
+                {% else %}
+                <p class="detail-text detail-text-muted">No job description added.</p>
+                {% endif %}
+            </div>
 
-<h3>Notes</h3>
-{% if application['notes'] %}
-    <p>{{ application['notes'] }}</p>
-{% else %}
-    <p>No notes available</p>
-{% endif %}
+            <div class="detail-card">
+                <div class="case-eyebrow dash-section-label">Notes</div>
+                {% if application['notes'] %}
+                <p class="detail-text">{{ application['notes'] }}</p>
+                {% else %}
+                <p class="detail-text detail-text-muted">No notes available.</p>
+                {% endif %}
+            </div>
+        </div>
 
-<h3>Resume</h3>
-{% if application['resume_filename'] %}
-    <form method="post" action="{{ url_for('score_application', id=application['id']) }}">
-        <button type="submit" class="btn-primary">Get match score</button>
-    </form>
-{% else %}
-    <p>Please upload a resume to enable AI match scoring.</p>
-{% endif %}
-{% if application['match_score'] %}
-    <h3>Match Score</h3>
-    <p>{{ application['match_score'] }} / 5</p>
-    
-    <h3>Reasoning</h3>
-    <p>{{ application['reasoning'] }}</p>
-    
-    {% if application['missing_keywords'] %}
-        <h3>Missing Keywords</h3>
-        <ul>
-        {% for keyword in application['missing_keywords'] %}
-            <li>{{ keyword }}</li>
-        {% endfor %}
-        </ul>
-    {% endif %}
-{% endif %}
+        <div class="detail-side">
+            <div class="detail-card">
+                <div class="case-eyebrow dash-section-label">Resume match</div>
+
+                {% if application['resume_filename'] %}
+                <form method="post" action="{{ url_for('score_application', id=application['id']) }}">
+                    <button type="submit" class="btn-stamp detail-score-btn">
+                        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M2 8.5l4 4 8-9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        Get match score
+                    </button>
+                </form>
+                {% else %}
+                <p class="detail-text detail-text-muted">Upload a resume to enable AI match scoring.</p>
+                {% endif %}
+
+                {% if application['match_score'] %}
+                <div class="detail-score">
+                    <div class="detail-score-value">{{ application['match_score'] }}<span>/5</span></div>
+                    <div class="case-eyebrow dash-section-label">Reasoning</div>
+                    <p class="detail-text">{{ application['reasoning'] }}</p>
+                </div>
+
+                {% if application['missing_keywords'] %}
+                <div class="case-eyebrow dash-section-label">Missing keywords</div>
+                <div class="detail-keywords">
+                    {% for keyword in application['missing_keywords'] %}
+                    <span class="detail-keyword-chip">{{ keyword }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock %}

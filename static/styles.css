@@ -1076,3 +1076,116 @@ a:hover {
     display: block;
 }
 
+/* Application detail page: same "case file" system as Dashboard */
+.detail-page {
+    padding: 44px 56px 60px;
+    max-width: 1040px;
+    margin: 0 auto;
+}
+
+.detail-back {
+    display: inline-block;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--case-ink-soft);
+    margin-bottom: 24px;
+}
+
+.detail-back:hover {
+    color: var(--case-forest-deep);
+    text-decoration: none;
+}
+
+.detail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 36px;
+}
+
+.detail-header .dash-title {
+    margin-bottom: 6px;
+}
+
+.detail-subtitle {
+    color: var(--case-ink-soft);
+    font-size: 15px;
+    margin: 0;
+}
+
+.detail-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 24px;
+    align-items: start;
+}
+
+.detail-card {
+    background: var(--case-paper-raised);
+    border: 1px solid var(--case-line);
+    border-top: 3px solid var(--case-forest-deep);
+    border-radius: 2px;
+    padding: 22px 24px;
+    margin-bottom: 24px;
+}
+
+.detail-text {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--case-ink);
+    white-space: pre-line;
+    margin: 0;
+}
+
+.detail-text-muted {
+    color: var(--case-ink-faint);
+}
+
+.detail-score-btn {
+    width: 100%;
+    justify-content: center;
+}
+
+.detail-score {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--case-line);
+}
+
+.detail-score-value {
+    font-family: 'Newsreader', Georgia, serif;
+    font-size: 40px;
+    font-weight: 600;
+    color: var(--case-forest-deep);
+    margin-bottom: 14px;
+}
+
+.detail-score-value span {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--case-ink-faint);
+}
+
+.detail-keywords {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 6px;
+}
+
+.detail-keyword-chip {
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--case-brick);
+    background: var(--case-brick-tint);
+    border-radius: 12px;
+    padding: 4px 12px;
+}
+
+@media (max-width: 900px) {
+    .detail-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
